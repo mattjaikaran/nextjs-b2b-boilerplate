@@ -13,7 +13,7 @@ import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 /**
  * Hook to fetch the current user's profile
  */
-export const useProfile = (
+const useProfile = (
   options?: Omit<UseQueryOptions<User, Error>, 'queryKey' | 'queryFn'>
 ) => {
   const { isAuthenticated } = useAuth();
@@ -31,7 +31,7 @@ export const useProfile = (
 /**
  * Hook to check if user session is valid
  */
-export const useSessionCheck = (
+const useSessionCheck = (
   options?: Omit<UseQueryOptions<boolean, Error>, 'queryKey' | 'queryFn'>
 ) => {
   const { isAuthenticated } = useAuth();
@@ -56,7 +56,7 @@ export const useSessionCheck = (
 /**
  * Hook to get auth status with user data
  */
-export const useAuthStatus = () => {
+const useAuthStatus = () => {
   const { isAuthenticated, user } = useAuth();
   const profileQuery = useProfile({ enabled: isAuthenticated && !user });
 

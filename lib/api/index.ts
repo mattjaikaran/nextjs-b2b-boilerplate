@@ -10,10 +10,6 @@ export {
 export type { BulkDeleteResponse, ServiceConfig, TodoStats } from './services';
 
 export {
-  createErrorResponse,
-  createPaginatedKey,
   createQueryKeyFactory,
-  createSuccessResponse,
   handlePaginatedResponse,
-  serializeParams,
 } from './utils';

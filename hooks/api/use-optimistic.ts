@@ -37,7 +37,7 @@ interface OptimisticMutationOptions<TData, TVariables> {
 /**
  * Hook for mutations with optimistic updates
  */
-export const useOptimisticMutation = <TData, TVariables>({
+const useOptimisticMutation = <TData, TVariables>({
   queryKey,
   mutationFn,
   optimisticUpdate,
@@ -84,7 +84,7 @@ export const useOptimisticMutation = <TData, TVariables>({
 /**
  * Hook for adding items with optimistic update
  */
-export const useOptimisticAdd = <TItem extends { id: string }>(
+const useOptimisticAdd = <TItem extends { id: string }>(
   queryKey: readonly unknown[],
   mutationFn: (variables: Partial<TItem>) => Promise<TItem>
 ) => {
@@ -137,7 +137,7 @@ export const useOptimisticAdd = <TItem extends { id: string }>(
 /**
  * Hook for updating items with optimistic update
  */
-export const useOptimisticUpdate = <TItem extends { id: string }>(
+const useOptimisticUpdate = <TItem extends { id: string }>(
   queryKey: readonly unknown[],
   mutationFn: (variables: { id: string } & Partial<TItem>) => Promise<TItem>
 ) => {
@@ -178,7 +178,7 @@ export const useOptimisticUpdate = <TItem extends { id: string }>(
 /**
  * Hook for removing items with optimistic update
  */
-export const useOptimisticRemove = <TItem extends { id: string }>(
+const useOptimisticRemove = <TItem extends { id: string }>(
   queryKey: readonly unknown[],
   mutationFn: (id: string) => Promise<{ message: string }>
 ) => {

@@ -80,20 +80,4 @@ export const config: AppConfig = {
   }),
 };
 
-export const apiConfig = config.api;
-export const authConfig = config.auth;
-export const featureConfig = config.features;
-export const envConfig = config.env;
-export const djangoConfig = config.django;
-
-export const isDevelopment = () => config.env.isDevelopment;
-export const isProduction = () => config.env.isProduction;
-export const isTest = () => config.env.isTest;
 export const isDjangoSPA = () => config.env.mode === 'django-spa';
-export const isStandalone = () => config.env.mode === 'standalone';
-
-export const isFeatureEnabled = (
-  feature: keyof typeof config.features
-): boolean => {
-  return config.features[feature];
-};

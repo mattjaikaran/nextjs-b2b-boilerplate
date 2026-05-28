@@ -5,7 +5,7 @@ import { useUI } from '@/lib/store';
 import type { CreateOrganizationRequest, InviteMemberRequest, Organization, OrganizationMember, UpdateOrganizationRequest } from '@/types';
 import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 
-export const useCreateOrganization = (
+const useCreateOrganization = (
   options?: Omit<UseMutationOptions<Organization, Error, CreateOrganizationRequest>, 'mutationFn'>
 ) => {
   const queryClient = useQueryClient();
@@ -24,7 +24,7 @@ export const useCreateOrganization = (
   });
 };
 
-export const useUpdateOrganization = (
+const useUpdateOrganization = (
   options?: Omit<UseMutationOptions<Organization, Error, { id: string; data: UpdateOrganizationRequest }>, 'mutationFn'>
 ) => {
   const queryClient = useQueryClient();
@@ -44,7 +44,7 @@ export const useUpdateOrganization = (
   });
 };
 
-export const useInviteMember = (
+const useInviteMember = (
   orgId: string,
   options?: Omit<UseMutationOptions<OrganizationMember, Error, InviteMemberRequest>, 'mutationFn'>
 ) => {
@@ -64,7 +64,7 @@ export const useInviteMember = (
   });
 };
 
-export const useRemoveMember = (
+const useRemoveMember = (
   orgId: string,
   options?: Omit<UseMutationOptions<{ message: string }, Error, string>, 'mutationFn'>
 ) => {

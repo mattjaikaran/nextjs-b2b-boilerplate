@@ -36,7 +36,7 @@ export const useTodos = (
 /**
  * Hook to fetch infinite/load-more todos
  */
-export const useInfiniteTodos = (params?: Omit<QueryParams, 'page'>) => {
+const useInfiniteTodos = (params?: Omit<QueryParams, 'page'>) => {
   return useInfiniteQuery<
     PaginatedResponse<Todo>,
     Error,
@@ -58,7 +58,7 @@ export const useInfiniteTodos = (params?: Omit<QueryParams, 'page'>) => {
 /**
  * Hook to fetch a single todo by ID
  */
-export const useTodo = (
+const useTodo = (
   id: string,
   options?: Omit<UseQueryOptions<Todo, Error>, 'queryKey' | 'queryFn'>
 ) => {
@@ -88,7 +88,7 @@ export const useTodoStats = (
 /**
  * Hook to fetch todos by priority
  */
-export const useTodosByPriority = (
+const useTodosByPriority = (
   priority: 'low' | 'medium' | 'high',
   params?: Omit<QueryParams, 'filters'>,
   options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
@@ -103,7 +103,7 @@ export const useTodosByPriority = (
 /**
  * Hook to fetch todos by completion status
  */
-export const useTodosByStatus = (
+const useTodosByStatus = (
   completed: boolean,
   params?: Omit<QueryParams, 'filters'>,
   options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
@@ -118,7 +118,7 @@ export const useTodosByStatus = (
 /**
  * Hook to fetch overdue todos
  */
-export const useOverdueTodos = (
+const useOverdueTodos = (
   options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery<Todo[], Error>({
@@ -132,7 +132,7 @@ export const useOverdueTodos = (
 /**
  * Hook to fetch todos due today
  */
-export const useTodosDueToday = (
+const useTodosDueToday = (
   options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery<Todo[], Error>({
@@ -145,7 +145,7 @@ export const useTodosDueToday = (
 /**
  * Hook to search todos
  */
-export const useSearchTodos = (
+const useSearchTodos = (
   query: string,
   params?: QueryParams,
   options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>

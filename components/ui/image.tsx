@@ -1,6 +1,6 @@
+import NextImage from "next/image"
 import {
   useState,
-  useEffect,
   useRef,
   type ReactNode,
   type SyntheticEvent,
@@ -60,19 +60,21 @@ function Image({
   ...props
 }: ImageProps) {
   const imgRef = useRef<HTMLImageElement>(null)
-  const [currentSrc, setCurrentSrc] = useState(src)
+  // Track whether we've fallen back to fallbackSrc on error
+  const [usedFallback, setUsedFallback] = useState(false)
   const [status, setStatus] = useState<LoadStatus>("loading")
 
-  useEffect(() => {
-    setCurrentSrc(src)
-    setStatus("loading")
-  }, [src])
+  // Compute currentSrc at render time — no derived useState
+  const currentSrc = usedFallback && fallbackSrc ? fallbackSrc : src
 
-  useEffect(() => {
-    if (imgRef.current?.complete) {
-      setStatus("loaded")
-    }
-  }, [currentSrc])
+  // Reset fallback state when src changes
+  const prevSrcRef = useRef(src)
+  if (src !== prevSrcRef.current) {
+    prevSrcRef.current = src
+    setUsedFallback(false)
+    const nextStatus = imgRef.current?.complete ? "loaded" : "loading"
+    setStatus(nextStatus)
+  }
 
   function handleLoad(e: SyntheticEvent<HTMLImageElement>) {
     setStatus("loaded")
@@ -80,8 +82,8 @@ function Image({
   }
 
   function handleError(e: SyntheticEvent<HTMLImageElement>) {
-    if (fallbackSrc && currentSrc !== fallbackSrc) {
-      setCurrentSrc(fallbackSrc)
+    if (fallbackSrc && !usedFallback) {
+      setUsedFallback(true)
     } else {
       setStatus("error")
     }
@@ -142,23 +144,26 @@ function Image({
           className={cn("absolute inset-0 animate-pulse bg-muted", roundedClass)}
         />
       )}
-      {showBlur && (
-        <img
+      {showBlur && blurDataURL && (
+        <NextImage
           src={blurDataURL}
           aria-hidden
           alt=""
-          className={cn("absolute inset-0 h-full w-full scale-110 blur-xl", roundedClass)}
+          fill
+          unoptimized
+          className={cn("absolute inset-0 scale-110 blur-xl", roundedClass)}
           style={{ objectFit }}
         />
       )}
-      <img
-        ref={imgRef}
+      <NextImage
+        ref={imgRef as React.Ref<HTMLImageElement>}
         src={currentSrc}
         alt={alt}
-        width={width}
-        height={height}
-        loading={priority ? undefined : "lazy"}
-        decoding={priority ? undefined : "async"}
+        width={width ? Number(width) : undefined}
+        height={height ? Number(height) : undefined}
+        fill={!width && !height}
+        priority={priority}
+        unoptimized
         onLoad={handleLoad}
         onError={handleError}
         className={cn(
@@ -168,7 +173,7 @@ function Image({
           className,
         )}
         style={imgStyle}
-        {...props}
+        {...(props as object)}
       />
     </span>
   )

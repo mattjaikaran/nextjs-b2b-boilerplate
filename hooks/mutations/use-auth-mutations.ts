@@ -66,11 +66,13 @@ export const useRegister = (
 ) => {
   const { register } = useAuth();
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, RegisterCredentials>({
     mutationFn: authService.register,
     onSuccess: data => {
       register(data as any);
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Account created!',
@@ -98,10 +100,12 @@ export const useMagicLink = (
   >
 ) => {
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<{ message: string }, Error, MagicLinkRequest>({
     mutationFn: authService.sendMagicLink,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Magic link sent!',
@@ -122,17 +126,19 @@ export const useMagicLink = (
 /**
  * Hook for verifying magic link
  */
-export const useVerifyMagicLink = (
+const useVerifyMagicLink = (
   options?: Omit<UseMutationOptions<AuthResponse, Error, string>, 'mutationFn'>
 ) => {
   const { login } = useAuth();
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, string>({
     mutationFn: (token: string) =>
       authService.verifyMagicLink(token),
     onSuccess: data => {
       login(data as any);
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Logged in!',
@@ -235,6 +241,7 @@ export const useChangePassword = (
   >
 ) => {
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<
     { message: string },
@@ -245,6 +252,7 @@ export const useChangePassword = (
       return authService.changePassword({ currentPassword, newPassword });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Password changed',
@@ -265,17 +273,19 @@ export const useChangePassword = (
 /**
  * Hook for requesting password reset
  */
-export const useRequestPasswordReset = (
+const useRequestPasswordReset = (
   options?: Omit<
     UseMutationOptions<{ message: string }, Error, string>,
     'mutationFn'
   >
 ) => {
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<{ message: string }, Error, string>({
     mutationFn: authService.requestPasswordReset,
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Reset email sent',
@@ -296,7 +306,7 @@ export const useRequestPasswordReset = (
 /**
  * Hook for resetting password with token
  */
-export const useResetPassword = (
+const useResetPassword = (
   options?: Omit<
     UseMutationOptions<
       { message: string },
@@ -307,6 +317,7 @@ export const useResetPassword = (
   >
 ) => {
   const { addNotification } = useUI();
+  const queryClient = useQueryClient();
 
   return useMutation<
     { message: string },
@@ -317,6 +328,7 @@ export const useResetPassword = (
       return authService.resetPassword({ token, newPassword });
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Password reset',

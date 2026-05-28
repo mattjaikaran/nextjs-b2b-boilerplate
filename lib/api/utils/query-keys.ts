@@ -7,7 +7,7 @@ type QueryParamValue =
   | Record<string, PrimitiveValue>;
 type QueryParamsObject = Record<string, QueryParamValue>;
 
-export const serializeParams = (params?: QueryParamsObject): string => {
+const serializeParams = (params?: QueryParamsObject): string => {
   if (!params) return '';
 
   const sortedParams = Object.keys(params)
@@ -23,7 +23,7 @@ export const serializeParams = (params?: QueryParamsObject): string => {
   return JSON.stringify(sortedParams);
 };
 
-export const createQueryKey = (
+const createQueryKey = (
   base: readonly string[],
   params?: QueryParams | QueryParamsObject
 ): readonly unknown[] => {
@@ -33,7 +33,7 @@ export const createQueryKey = (
   return [...base, serializeParams(params as QueryParamsObject)];
 };
 
-export const createPaginatedKey = (
+const createPaginatedKey = (
   base: readonly string[],
   page?: number,
   limit?: number,

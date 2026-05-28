@@ -61,7 +61,7 @@ export default function BillingPage() {
             <ul className="space-y-2 text-sm">
               {planFeatures.map(feature => (
                 <li key={feature} className="flex items-center gap-2">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  <span className="size-1.5 rounded-full bg-primary" />
                   {feature}
                 </li>
               ))}
@@ -77,7 +77,7 @@ export default function BillingPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <CreditCard className="h-5 w-5" />
+              <CreditCard className="size-5" />
               Payment Method
             </CardTitle>
             <CardDescription>
@@ -120,7 +120,7 @@ export default function BillingPage() {
                   </TableCell>
                   <TableCell>
                     <Button variant="ghost" size="sm" className="gap-1">
-                      <Download className="h-4 w-4" />
+                      <Download className="size-4" />
                       Download
                     </Button>
                   </TableCell>

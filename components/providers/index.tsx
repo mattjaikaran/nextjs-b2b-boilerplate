@@ -24,5 +24,3 @@ export function AppProviders({ children }: AppProvidersProps) {
   );
 }
 
-export { QueryProvider };
-export { ThemeProvider };

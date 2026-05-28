@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
 import { Hero } from '@/components/shared/Hero';
 import { MainLayout } from '@/components/layouts/MainLayout';
+
+export const metadata: Metadata = {
+  title: 'Home',
+  description: 'Welcome to our platform',
+};
 
 export default function HomePage() {
   return (

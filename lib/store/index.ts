@@ -34,36 +34,5 @@ export const useAuth = () => {
 export const useUI = () => useUIStore();
 export const useTodos = () => useTodoStore();
 
-export const useAppConfig = () => ({
-  config: useConfigStore((s) => s.config),
-  isDjangoSPA: useConfigStore((s) => s.isDjangoSPA),
-  isStandalone: useConfigStore((s) => s.isStandalone),
-  updateConfig: useConfigStore((s) => s.updateConfig),
-  isFeatureEnabled: useConfigStore((s) => s.isFeatureEnabled),
-  setFeature: useConfigStore((s) => s.setFeature),
-});
-
 export const useFeatureEnabled = (feature: keyof typeof config.features) =>
   config.features[feature];
-
-export const useApiConfig = () => config.api;
-export const useAuthConfig = () => config.auth;
-export const useDjangoConfig = () => config.django;
-export const useEnvConfig = () => config.env;
-export const useIsDjangoSPA = () => config.env.mode === 'django-spa';
-export const useIsStandalone = () => config.env.mode === 'standalone';
-
-export const useTheme = () => {
-  // For Next.js, theme is managed by next-themes, not Zustand
-  // Import useTheme from next-themes directly when needed
-  return 'system' as const;
-};
-
-export const useSetTheme = () => {
-  // Use next-themes setTheme directly
-  return (_theme: string) => {};
-};
-
-export const useToggleTheme = () => {
-  return () => {};
-};

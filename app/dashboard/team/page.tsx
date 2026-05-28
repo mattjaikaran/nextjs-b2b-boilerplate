@@ -105,7 +105,7 @@ export default function TeamPage() {
         <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
           <DialogTrigger asChild>
             <Button className="gap-2">
-              <UserPlus className="h-4 w-4" />
+              <UserPlus className="size-4" />
               Invite Member
             </Button>
           </DialogTrigger>
@@ -169,8 +169,8 @@ export default function TeamPage() {
                   {member.lastActive}
                 </TableCell>
                 <TableCell>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MoreHorizontal className="h-4 w-4" />
+                  <Button variant="ghost" size="icon" className="size-8">
+                    <MoreHorizontal className="size-4" />
                     <span className="sr-only">Actions</span>
                   </Button>
                 </TableCell>

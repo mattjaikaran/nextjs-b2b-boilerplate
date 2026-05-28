@@ -47,7 +47,7 @@ export default function DashboardPage() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="gap-y-6">
       {/* Page header */}
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -59,9 +59,9 @@ export default function DashboardPage() {
       {/* Stats grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Tasks</CardTitle>
-            <CheckSquare className="h-4 w-4 text-muted-foreground" />
+            <CheckSquare className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.total}</div>
@@ -69,9 +69,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Completed</CardTitle>
-            <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            <TrendingUp className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.completed}</div>
@@ -79,9 +79,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Pending</CardTitle>
-            <Clock className="h-4 w-4 text-muted-foreground" />
+            <Clock className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.pending}</div>
@@ -89,9 +89,9 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+          <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Overdue</CardTitle>
-            <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+            <AlertTriangle className="size-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stats.overdue}</div>
@@ -105,7 +105,7 @@ export default function DashboardPage() {
         <Card className="lg:col-span-2">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5" />
+              <Activity className="size-5" />
               Weekly Activity
             </CardTitle>
             <CardDescription>Tasks completed this week</CardDescription>
@@ -147,7 +147,7 @@ export default function DashboardPage() {
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
+              <Calendar className="size-5" />
               Monthly Trend
             </CardTitle>
             <CardDescription>Completed tasks over time</CardDescription>
@@ -166,7 +166,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             {todosLoading ? (
-              <div className="space-y-3">
+              <div className="gap-y-3">
                 {[...Array(5)].map((_, i) => (
                   <div
                     key={i}
@@ -175,7 +175,7 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : Array.isArray(todos) && todos.length > 0 ? (
-              <div className="space-y-3">
+              <div className="gap-y-3">
                 {todos.slice(0, 5).map((todo: { id: string; title: string; completed?: boolean }) => (
                   <div
                     key={todo.id}
@@ -201,7 +201,7 @@ export default function DashboardPage() {
                 ))}
               </div>
             ) : (
-              <div className="space-y-4 py-8 text-center">
+              <div className="gap-y-4 py-8 text-center">
                 <p className="text-sm text-muted-foreground">
                   No tasks yet. Create your first task!
                 </p>

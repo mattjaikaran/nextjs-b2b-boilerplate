@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About Us',
+  description: 'Learn more about our company and mission',
+};
+
 export default function AboutPage() {
   return (
     <div className="page-container">

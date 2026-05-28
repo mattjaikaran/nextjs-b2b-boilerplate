@@ -20,7 +20,7 @@ import {
 /**
  * Generic GET hook for fetching data
  */
-export const useApiGet = <TData = unknown, TError = Error>(
+const useApiGet = <TData = unknown, TError = Error>(
   url: string,
   options?: Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
 ) => {
@@ -40,7 +40,7 @@ export const useApiGet = <TData = unknown, TError = Error>(
 /**
  * Generic GET hook with custom query key
  */
-export const useApiQuery = <TData = unknown, TError = Error>(
+const useApiQuery = <TData = unknown, TError = Error>(
   queryKey: readonly unknown[],
   url: string,
   options?: Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
@@ -61,7 +61,7 @@ export const useApiQuery = <TData = unknown, TError = Error>(
 /**
  * Generic POST mutation hook
  */
-export const useApiPost = <
+const useApiPost = <
   TData = unknown,
   TError = Error,
   TVariables = unknown,
@@ -69,6 +69,7 @@ export const useApiPost = <
   url: string,
   options?: Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<TData, TError, TVariables>({
     mutationFn: async (data: TVariables) => {
       const response = await api.post<ApiResponse<TData>>(url, data);
@@ -77,6 +78,10 @@ export const useApiPost = <
       }
       return response.data.data;
     },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: [url] });
+      options?.onSuccess?.(...args);
+    },
     ...options,
   });
 };
@@ -84,7 +89,7 @@ export const useApiPost = <
 /**
  * Generic PUT mutation hook
  */
-export const useApiPut = <
+const useApiPut = <
   TData = unknown,
   TError = Error,
   TVariables = unknown,
@@ -92,6 +97,7 @@ export const useApiPut = <
   url: string,
   options?: Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<TData, TError, TVariables>({
     mutationFn: async (data: TVariables) => {
       const response = await api.put<ApiResponse<TData>>(url, data);
@@ -100,6 +106,10 @@ export const useApiPut = <
       }
       return response.data.data;
     },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: [url] });
+      options?.onSuccess?.(...args);
+    },
     ...options,
   });
 };
@@ -107,7 +117,7 @@ export const useApiPut = <
 /**
  * Generic PATCH mutation hook
  */
-export const useApiPatch = <
+const useApiPatch = <
   TData = unknown,
   TError = Error,
   TVariables = unknown,
@@ -115,6 +125,7 @@ export const useApiPatch = <
   url: string,
   options?: Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<TData, TError, TVariables>({
     mutationFn: async (data: TVariables) => {
       const response = await api.patch<ApiResponse<TData>>(url, data);
@@ -123,6 +134,10 @@ export const useApiPatch = <
       }
       return response.data.data;
     },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: [url] });
+      options?.onSuccess?.(...args);
+    },
     ...options,
   });
 };
@@ -130,10 +145,11 @@ export const useApiPatch = <
 /**
  * Generic DELETE mutation hook
  */
-export const useApiDelete = <TData = unknown, TError = Error>(
+const useApiDelete = <TData = unknown, TError = Error>(
   url: string,
   options?: Omit<UseMutationOptions<TData, TError, void>, 'mutationFn'>
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<TData, TError, void>({
     mutationFn: async () => {
       const response = await api.delete<ApiResponse<TData>>(url);
@@ -142,6 +158,10 @@ export const useApiDelete = <TData = unknown, TError = Error>(
       }
       return response.data.data;
     },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: [url] });
+      options?.onSuccess?.(...args);
+    },
     ...options,
   });
 };
@@ -149,10 +169,11 @@ export const useApiDelete = <TData = unknown, TError = Error>(
 /**
  * Generic DELETE mutation hook with ID parameter
  */
-export const useApiDeleteById = <TData = unknown, TError = Error>(
+const useApiDeleteById = <TData = unknown, TError = Error>(
   baseUrl: string,
   options?: Omit<UseMutationOptions<TData, TError, string>, 'mutationFn'>
 ) => {
+  const queryClient = useQueryClient();
   return useMutation<TData, TError, string>({
     mutationFn: async (id: string) => {
       const response = await api.delete<ApiResponse<TData>>(`${baseUrl}/${id}`);
@@ -161,6 +182,10 @@ export const useApiDeleteById = <TData = unknown, TError = Error>(
       }
       return response.data.data;
     },
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({ queryKey: [baseUrl] });
+      options?.onSuccess?.(...args);
+    },
     ...options,
   });
 };
@@ -168,7 +193,7 @@ export const useApiDeleteById = <TData = unknown, TError = Error>(
 /**
  * Infinite query hook for paginated data
  */
-export const useApiInfinite = <TData = unknown, TError = Error>(
+const useApiInfinite = <TData = unknown, TError = Error>(
   queryKey: readonly unknown[],
   url: string
 ) => {
@@ -203,7 +228,7 @@ export const useApiInfinite = <TData = unknown, TError = Error>(
 /**
  * Hook to prefetch data
  */
-export const usePrefetch = () => {
+const usePrefetch = () => {
   const queryClient = useQueryClient();
 
   return {
@@ -231,7 +256,7 @@ export const usePrefetch = () => {
 /**
  * Hook to invalidate queries
  */
-export const useInvalidate = () => {
+const useInvalidate = () => {
   const queryClient = useQueryClient();
 
   return {

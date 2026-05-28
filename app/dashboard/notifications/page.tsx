@@ -154,8 +154,8 @@ export default function NotificationsPage() {
                     !notification.read ? 'bg-muted/50' : ''
                   }`}
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
-                    <Icon className="h-5 w-5 text-muted-foreground" />
+                  <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <Icon className="size-5 text-muted-foreground" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">

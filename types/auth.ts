@@ -10,18 +10,6 @@ export interface DjangoJWTTokens {
   refresh: string;
 }
 
-export function normalizeTokens(
-  tokens: AuthTokens | DjangoJWTTokens
-): AuthTokens {
-  if ('access' in tokens) {
-    return {
-      accessToken: tokens.access,
-      refreshToken: tokens.refresh,
-    };
-  }
-  return tokens;
-}
-
 export interface LoginCredentials {
   email: string;
   password: string;

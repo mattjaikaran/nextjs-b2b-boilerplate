@@ -38,20 +38,6 @@ export interface PaginatedResponse<T> {
   };
 }
 
-export function normalizePaginatedResponse<T>(
-  response: DjangoPaginatedResponse<T>
-): PaginatedResponse<T> {
-  return {
-    data: response.items,
-    pagination: {
-      page: response.page,
-      limit: response.page_size,
-      total: response.count,
-      totalPages: response.pages,
-    },
-  };
-}
-
 export interface QueryParams {
   page?: number;
   page_size?: number;

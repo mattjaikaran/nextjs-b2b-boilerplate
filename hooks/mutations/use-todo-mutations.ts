@@ -72,7 +72,7 @@ export const useUpdateTodo = (
   });
 };
 
-export const useDeleteTodo = (
+const useDeleteTodo = (
   options?: Omit<
     UseMutationOptions<{ message: string }, Error, string>,
     'mutationFn'
@@ -104,7 +104,7 @@ export const useDeleteTodo = (
   });
 };
 
-export const useToggleTodo = (
+const useToggleTodo = (
   options?: Omit<UseMutationOptions<Todo, Error, string>, 'mutationFn'>
 ) => {
   const queryClient = useQueryClient();
@@ -123,7 +123,7 @@ export const useToggleTodo = (
   });
 };
 
-export const useBulkUpdateTodos = (
+const useBulkUpdateTodos = (
   options?: Omit<
     UseMutationOptions<Todo[], Error, { ids: string[]; updates: UpdateTodoRequest }>,
     'mutationFn'
@@ -157,7 +157,7 @@ export const useBulkUpdateTodos = (
   });
 };
 
-export const useBulkDeleteTodos = (
+const useBulkDeleteTodos = (
   options?: Omit<
     UseMutationOptions<{ message: string; deletedCount: number }, Error, string[]>,
     'mutationFn'
@@ -191,7 +191,7 @@ export const useBulkDeleteTodos = (
   });
 };
 
-export const useArchiveCompletedTodos = (
+const useArchiveCompletedTodos = (
   options?: Omit<
     UseMutationOptions<{ message: string; archivedCount: number }, Error, void>,
     'mutationFn'

@@ -4,7 +4,7 @@ import { orgKeys, organizationService } from '@/lib/api/services';
 import type { Organization, OrganizationMember } from '@/types';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 
-export const useOrganizations = (
+const useOrganizations = (
   options?: Omit<UseQueryOptions<Organization[], Error>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery<Organization[], Error>({
@@ -14,7 +14,7 @@ export const useOrganizations = (
   });
 };
 
-export const useOrganization = (
+const useOrganization = (
   id: string,
   options?: Omit<UseQueryOptions<Organization, Error>, 'queryKey' | 'queryFn'>
 ) => {
@@ -26,7 +26,7 @@ export const useOrganization = (
   });
 };
 
-export const useOrgMembers = (
+const useOrgMembers = (
   orgId: string,
   options?: Omit<UseQueryOptions<OrganizationMember[], Error>, 'queryKey' | 'queryFn'>
 ) => {

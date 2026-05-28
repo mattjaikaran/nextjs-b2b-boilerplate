@@ -45,7 +45,7 @@ export function Footer({ className }: FooterProps) {
     <footer className={`border-t bg-background ${className}`}>
       <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
-          <div className="space-y-8 xl:col-span-1">
+          <div className="gap-y-8 xl:col-span-1">
             <div>
               <span className="text-2xl font-bold text-primary">
                 Next.js Starter
@@ -55,7 +55,7 @@ export function Footer({ className }: FooterProps) {
                 App Router, TypeScript, and the latest tools.
               </p>
             </div>
-            <div className="flex space-x-6">
+            <div className="flex gap-x-6">
               {navigation.social.map(item => (
                 <a
                   key={item.name}
@@ -65,7 +65,7 @@ export function Footer({ className }: FooterProps) {
                   className="text-muted-foreground transition-colors hover:text-primary"
                 >
                   <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" />
+                  <item.icon className="size-6" />
                 </a>
               ))}
             </div>
@@ -77,7 +77,7 @@ export function Footer({ className }: FooterProps) {
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
                   Navigation
                 </h3>
-                <ul className="mt-4 space-y-4">
+                <ul className="mt-4 gap-y-4">
                   {navigation.main.map(item => (
                     <li key={item.name}>
                       <Link
@@ -94,7 +94,7 @@ export function Footer({ className }: FooterProps) {
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
                   Legal
                 </h3>
-                <ul className="mt-4 space-y-4">
+                <ul className="mt-4 gap-y-4">
                   {navigation.legal.map(item => (
                     <li key={item.name}>
                       <Link
@@ -114,7 +114,7 @@ export function Footer({ className }: FooterProps) {
                 <h3 className="text-sm font-semibold uppercase tracking-wider text-foreground">
                   Built With
                 </h3>
-                <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                <ul className="mt-4 gap-y-2 text-sm text-muted-foreground">
                   <li>Next.js 15 & TypeScript</li>
                   <li>App Router & React Query</li>
                   <li>Tailwind CSS & Shadcn/ui</li>

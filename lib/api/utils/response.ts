@@ -26,31 +26,6 @@ const isDjangoPaginated = <T>(
   );
 };
 
-export const handleApiResponse = <T>(
-  response: AxiosResponse<ApiResponse<T> | T>
-): T => {
-  const data = response.data;
-
-  if (isWrappedResponse<T>(data)) {
-    if (data.success) {
-      return data.data;
-    }
-    throw new Error(data.message || 'API request failed');
-  }
-
-  if (typeof data === 'object' && data !== null && 'detail' in data) {
-    const detail = (data as { detail: string | { msg: string }[] }).detail;
-    if (typeof detail === 'string') {
-      throw new Error(detail);
-    }
-    if (Array.isArray(detail)) {
-      throw new Error(detail.map((d) => d.msg).join(', '));
-    }
-  }
-
-  return data as T;
-};
-
 export const handlePaginatedResponse = <T>(
   response: AxiosResponse<
     | ApiResponse<PaginatedResponse<T>>
@@ -86,20 +61,3 @@ export const handlePaginatedResponse = <T>(
   throw new Error('Unexpected response format');
 };
 
-export const createSuccessResponse = <T>(
-  data: T,
-  message?: string
-): ApiResponse<T> => ({
-  success: true,
-  data,
-  message,
-});
-
-export const createErrorResponse = <T = null>(
-  message: string,
-  data?: T
-): ApiResponse<T> => ({
-  success: false,
-  data: data as T,
-  message,
-});

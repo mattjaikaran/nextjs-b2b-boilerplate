@@ -1,3 +1,10 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Terms of Service',
+  description: 'Our terms of service and usage policies',
+};
+
 export default function TermsPage() {
   const lastUpdated = new Date().toLocaleDateString();
   return (

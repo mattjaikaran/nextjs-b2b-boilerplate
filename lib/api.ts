@@ -139,36 +139,6 @@ const createApiInstance = (): AxiosInstance => {
 
 export const api = createApiInstance();
 
-export const apiClient = {
-  get: <T = unknown>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<ApiResponse<T>>> => api.get(url, config),
-
-  post: <T = unknown, D = unknown>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<ApiResponse<T>>> => api.post(url, data, config),
-
-  put: <T = unknown, D = unknown>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<ApiResponse<T>>> => api.put(url, data, config),
-
-  patch: <T = unknown, D = unknown>(
-    url: string,
-    data?: D,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<ApiResponse<T>>> => api.patch(url, data, config),
-
-  delete: <T = unknown>(
-    url: string,
-    config?: AxiosRequestConfig
-  ): Promise<AxiosResponse<ApiResponse<T>>> => api.delete(url, config),
-};
-
 export const handleApiResponse = <T>(
   response: AxiosResponse<ApiResponse<T>>
 ): T => {
@@ -176,35 +146,4 @@ export const handleApiResponse = <T>(
     return response.data.data;
   }
   throw new Error(response.data.message || 'API request failed');
-};
-
-export const createQueryKey = (
-  key: string,
-  params?: QueryParams | Record<string, string | number | boolean | undefined>
-): (
-  | string
-  | QueryParams
-  | Record<string, string | number | boolean | undefined>
-)[] => {
-  if (!params) return [key];
-  return [key, params];
-};
-
-export const buildQueryString = (params: QueryParams): string => {
-  const searchParams = new URLSearchParams();
-
-  if (params.page) searchParams.set('page', String(params.page));
-  if (params.page_size) searchParams.set('page_size', String(params.page_size));
-  if (params.search) searchParams.set('search', params.search);
-  if (params.ordering) searchParams.set('ordering', params.ordering);
-
-  if (params.filters) {
-    Object.entries(params.filters).forEach(([key, value]) => {
-      if (value !== undefined) {
-        searchParams.set(key, String(value));
-      }
-    });
-  }
-
-  return searchParams.toString();
 };

@@ -10,7 +10,7 @@ import { useCallback, useEffect, useState } from 'react';
 /**
  * Hook for state that persists in localStorage
  */
-export const useLocalStorage = <T>(
+const useLocalStorage = <T>(
   key: string,
   initialValue: T
 ): [T, (value: T | ((prev: T) => T)) => void, () => void] => {
@@ -92,7 +92,7 @@ export const useLocalStorage = <T>(
 /**
  * Hook for session storage (clears on browser close)
  */
-export const useSessionStorage = <T>(
+const useSessionStorage = <T>(
   key: string,
   initialValue: T
 ): [T, (value: T | ((prev: T) => T)) => void, () => void] => {

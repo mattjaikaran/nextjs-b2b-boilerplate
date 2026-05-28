@@ -6,7 +6,7 @@
  */
 
 import { cn } from '@/lib/utils';
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 
 export interface AreaChartDataPoint {
   label: string;
@@ -77,10 +77,8 @@ export function AreaChart({
     };
   }, [data]);
 
-  const gradientId = useMemo(
-    () => `area-gradient-${Math.random().toString(36).slice(2)}`,
-    []
-  );
+  const id = useId();
+  const gradientId = `area-gradient-${id}`;
 
   if (data.length === 0) {
     return (
@@ -165,9 +163,9 @@ export function AreaChart({
       {/* Labels */}
       {showLabels && (
         <div className="mt-2 flex justify-between px-2">
-          {data.map((d, i) => (
+          {data.map((d) => (
             <span
-              key={i}
+              key={d.label}
               className="truncate text-xs text-muted-foreground"
               style={{ maxWidth: `${100 / data.length}%` }}
             >
