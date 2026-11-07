@@ -11,7 +11,6 @@ import {
 import { useTodos } from '@/hooks';
 import {
   Activity,
-  AlertTriangle,
   Calendar,
   CheckSquare,
   Clock,
@@ -33,7 +32,6 @@ export default function DashboardPage() {
     pending: Array.isArray(todos)
       ? todos.filter((t: { completed?: boolean }) => !t.completed).length
       : 0,
-    overdue: 0,
   };
 
   const weeklyActivityData = [
@@ -87,18 +85,7 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">{stats.pending}</div>
             <p className="text-xs text-muted-foreground">from last week</p>
           </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Overdue</CardTitle>
-            <AlertTriangle className="size-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.overdue}</div>
-            <p className="text-xs text-muted-foreground">need attention</p>
-          </CardContent>
-        </Card>
-      </div>
+        </Card>      </div>
 
       {/* Charts row - simplified without chart components */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

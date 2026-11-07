@@ -21,7 +21,6 @@ const initialFilters: TodoFilters = {
   search: '',
   priority: 'all',
   completed: 'all',
-  tags: [],
 };
 
 const mockTodos: Todo[] = [
@@ -31,8 +30,6 @@ const mockTodos: Todo[] = [
     description: 'Set up the Next.js boilerplate with all necessary configurations',
     completed: false,
     priority: 'high',
-    dueDate: '2026-12-31',
-    tags: ['development', 'setup'],
     userId: '1',
     createdAt: '2026-01-01T00:00:00Z',
     updatedAt: '2026-01-01T00:00:00Z',
@@ -43,8 +40,6 @@ const mockTodos: Todo[] = [
     description: 'Create comprehensive documentation for the boilerplate',
     completed: false,
     priority: 'medium',
-    dueDate: '2026-12-25',
-    tags: ['documentation'],
     userId: '1',
     createdAt: '2026-01-02T00:00:00Z',
     updatedAt: '2026-01-02T00:00:00Z',
@@ -55,7 +50,6 @@ const mockTodos: Todo[] = [
     description: 'Implement unit tests for all components and utilities',
     completed: true,
     priority: 'high',
-    tags: ['testing'],
     userId: '1',
     createdAt: '2026-01-03T00:00:00Z',
     updatedAt: '2026-01-03T00:00:00Z',
@@ -89,7 +83,6 @@ export const useTodoStore = create<TodoSlice>((set, get) => ({
         id: generateId(),
         ...todoData,
         completed: false,
-        tags: todoData.tags || [],
         userId: '1',
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),

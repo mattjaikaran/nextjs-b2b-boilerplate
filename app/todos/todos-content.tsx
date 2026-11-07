@@ -18,12 +18,16 @@ import { redirect } from 'next/navigation';
 import { useState } from 'react';
 
 export function TodosContent() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, hasHydrated } = useAuth();
   const { data: todosResponse, isLoading } = useTodos();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState<
     'all' | 'completed' | 'pending'
   >('all');
+
+  if (!hasHydrated) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     redirect('/login');

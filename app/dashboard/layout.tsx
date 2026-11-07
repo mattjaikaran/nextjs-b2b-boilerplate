@@ -9,7 +9,13 @@ export default function DashboardGroupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, hasHydrated } = useAuth();
+
+  // Wait for the cached session before deciding to redirect, otherwise a
+  // reload bounces authenticated users to the login page.
+  if (!hasHydrated) {
+    return null;
+  }
 
   if (!isAuthenticated) {
     redirect('/login');

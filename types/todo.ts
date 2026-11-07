@@ -5,8 +5,6 @@ export interface Todo extends BaseEntity {
   description?: string;
   completed: boolean;
   priority: TodoPriority;
-  dueDate?: string;
-  tags: string[];
   userId: string;
 }
 
@@ -16,8 +14,6 @@ export interface CreateTodoRequest {
   title: string;
   description?: string;
   priority: TodoPriority;
-  dueDate?: string;
-  tags?: string[];
 }
 
 export interface UpdateTodoRequest extends Partial<CreateTodoRequest> {
@@ -28,8 +24,6 @@ export interface TodoStats {
   total: number;
   completed: number;
   pending: number;
-  overdue: number;
-  byPriority: Record<string, number>;
 }
 
 export interface TodoState {
@@ -43,5 +37,4 @@ export interface TodoFilters {
   search: string;
   priority: TodoPriority | 'all';
   completed: boolean | 'all';
-  tags: string[];
 }

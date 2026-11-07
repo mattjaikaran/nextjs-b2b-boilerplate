@@ -10,29 +10,21 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Key, Loader2, Save } from 'lucide-react';
-import type { ProfileForm, PasswordForm } from './settings-types';
+import { Loader2, Save } from 'lucide-react';
+import type { ProfileForm } from './settings-types';
 
 interface AccountTabProps {
   profileForm: ProfileForm;
   onProfileFormChange: (form: ProfileForm) => void;
   onProfileSubmit: (e: React.FormEvent) => void;
-  passwordForm: PasswordForm;
-  onPasswordFormChange: (form: PasswordForm) => void;
-  onPasswordSubmit: (e: React.FormEvent) => void;
   isProfilePending: boolean;
-  isPasswordPending: boolean;
 }
 
 export function AccountTab({
   profileForm,
   onProfileFormChange,
   onProfileSubmit,
-  passwordForm,
-  onPasswordFormChange,
-  onPasswordSubmit,
   isProfilePending,
-  isPasswordPending,
 }: AccountTabProps) {
   return (
     <Card>

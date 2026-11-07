@@ -7,16 +7,19 @@
 
 import { todoListTodosQueryKey } from '@/api/generated/@tanstack/react-query.gen';
 import { todoListTodos } from '@/api/generated/sdk.gen';
-import {
-  toPaginatedTodos,
-  toTodo,
-  toTodoQuery,
-  toTodoStats,
-} from '@/lib/api-mappers';
+import { toPaginatedTodos, toTodoQuery } from '@/lib/api-mappers';
 import type { PaginatedResponse, QueryParams, Todo, TodoStats } from '@/types';
 import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 
-const STATS_QUERY = { page_size: 100 };
+const STATS_QUERY = { page_size: 1 };
+
+const countTodos = async (filters: { completed?: boolean } = {}) => {
+  const { data } = await todoListTodos({
+    query: { ...filters, ...STATS_QUERY },
+    throwOnError: true,
+  });
+  return data.count;
+};
 
 /**
  * Hook to fetch paginated todos
@@ -48,13 +51,15 @@ export const useTodoStats = (
   options?: Omit<UseQueryOptions<TodoStats, Error>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery<TodoStats, Error>({
-    queryKey: todoListTodosQueryKey({ query: STATS_QUERY }),
+    // Mark the derived shape so it cannot collide with a useTodos page.
+    queryKey: [...todoListTodosQueryKey({ query: STATS_QUERY }), 'stats'],
     queryFn: async () => {
-      const { data } = await todoListTodos({
-        query: STATS_QUERY,
-        throwOnError: true,
-      });
-      return toTodoStats(data.results.map(toTodo));
+      const [total, completed, pending] = await Promise.all([
+        countTodos(),
+        countTodos({ completed: true }),
+        countTodos({ completed: false }),
+      ]);
+      return { total, completed, pending };
     },
     staleTime: 60 * 1000, // 1 minute
     ...options,
