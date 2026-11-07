@@ -68,12 +68,11 @@ function Image({
   const currentSrc = usedFallback && fallbackSrc ? fallbackSrc : src
 
   // Reset fallback state when src changes
-  const prevSrcRef = useRef(src)
-  if (src !== prevSrcRef.current) {
-    prevSrcRef.current = src
+  const [prevSrc, setPrevSrc] = useState(src)
+  if (src !== prevSrc) {
+    setPrevSrc(src)
     setUsedFallback(false)
-    const nextStatus = imgRef.current?.complete ? "loaded" : "loading"
-    setStatus(nextStatus)
+    setStatus("loading")
   }
 
   function handleLoad(e: SyntheticEvent<HTMLImageElement>) {

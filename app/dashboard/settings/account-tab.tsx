@@ -11,7 +11,6 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Key, Loader2, Save } from 'lucide-react';
-import { useState } from 'react';
 import type { ProfileForm, PasswordForm } from './settings-types';
 
 interface AccountTabProps {

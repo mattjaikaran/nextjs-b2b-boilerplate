@@ -2,10 +2,24 @@
 
 /**
  * Auth Mutation Hooks
- * React Query hooks for auth mutations (login, register, etc.)
+ * React Query hooks backed by the generated OpenAPI SDK.
  */
 
-import { authKeys, authService } from '@/lib/api/services';
+import { authGetCurrentUserQueryKey } from '@/api/generated/@tanstack/react-query.gen';
+import { client } from '@/api/generated/client.gen';
+import {
+  authLogin,
+  authLogout,
+  authRequestPasswordlessLogin,
+  authSignup,
+  userUpdateUser,
+} from '@/api/generated/sdk.gen';
+import {
+  toAuthResponse,
+  toSignupBody,
+  toUser,
+  toUserUpdateBody,
+} from '@/lib/api-mappers';
 import { useAuth, useUI } from '@/lib/store';
 import type {
   AuthResponse,
@@ -34,10 +48,15 @@ export const useLogin = (
   const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, LoginCredentials>({
-    mutationFn: authService.login,
+    mutationFn: async credentials => {
+      const response = await authLogin({ body: credentials, throwOnError: true });
+      return toAuthResponse(response.data);
+    },
     onSuccess: data => {
-      login(data as any);
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
+      login(data);
+      queryClient.invalidateQueries({
+        queryKey: authGetCurrentUserQueryKey(),
+      });
       addNotification({
         type: 'success',
         title: 'Welcome back!',
@@ -69,10 +88,18 @@ export const useRegister = (
   const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, RegisterCredentials>({
-    mutationFn: authService.register,
+    mutationFn: async credentials => {
+      const response = await authSignup({
+        body: toSignupBody(credentials),
+        throwOnError: true,
+      });
+      return toAuthResponse(response.data);
+    },
     onSuccess: data => {
-      register(data as any);
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
+      register(data);
+      queryClient.invalidateQueries({
+        queryKey: authGetCurrentUserQueryKey(),
+      });
       addNotification({
         type: 'success',
         title: 'Account created!',
@@ -100,12 +127,16 @@ export const useMagicLink = (
   >
 ) => {
   const { addNotification } = useUI();
-  const queryClient = useQueryClient();
 
   return useMutation<{ message: string }, Error, MagicLinkRequest>({
-    mutationFn: authService.sendMagicLink,
+    mutationFn: async request => {
+      await authRequestPasswordlessLogin({
+        body: { email: request.email },
+        throwOnError: true,
+      });
+      return { message: 'Magic link sent' };
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
       addNotification({
         type: 'success',
         title: 'Magic link sent!',
@@ -116,39 +147,6 @@ export const useMagicLink = (
       addNotification({
         type: 'error',
         title: 'Failed to send magic link',
-        message: error.message,
-      });
-    },
-    ...options,
-  });
-};
-
-/**
- * Hook for verifying magic link
- */
-const useVerifyMagicLink = (
-  options?: Omit<UseMutationOptions<AuthResponse, Error, string>, 'mutationFn'>
-) => {
-  const { login } = useAuth();
-  const { addNotification } = useUI();
-  const queryClient = useQueryClient();
-
-  return useMutation<AuthResponse, Error, string>({
-    mutationFn: (token: string) =>
-      authService.verifyMagicLink(token),
-    onSuccess: data => {
-      login(data as any);
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
-      addNotification({
-        type: 'success',
-        title: 'Logged in!',
-        message: 'Magic link verified successfully.',
-      });
-    },
-    onError: error => {
-      addNotification({
-        type: 'error',
-        title: 'Verification failed',
         message: error.message,
       });
     },
@@ -171,8 +169,8 @@ export const useLogout = (
 
   return useMutation<{ message: string }, Error, void>({
     mutationFn: async () => {
-      await authService.logout();
-      return { message: 'Logged out' };
+      const response = await authLogout({ throwOnError: true });
+      return { message: response.data.message };
     },
     onSuccess: () => {
       logout();
@@ -203,13 +201,27 @@ export const useLogout = (
 export const useUpdateProfile = (
   options?: Omit<UseMutationOptions<User, Error, Partial<User>>, 'mutationFn'>
 ) => {
+  const { user, setUser } = useAuth();
   const { addNotification } = useUI();
   const queryClient = useQueryClient();
 
   return useMutation<User, Error, Partial<User>>({
-    mutationFn: authService.updateProfile,
+    mutationFn: async updates => {
+      if (!user) {
+        throw new Error('You must be signed in to update your profile.');
+      }
+      const response = await userUpdateUser({
+        path: { user_id: user.id },
+        body: toUserUpdateBody(updates),
+        throwOnError: true,
+      });
+      return toUser(response.data);
+    },
     onSuccess: data => {
-      queryClient.setQueryData(authKeys.profile(), data);
+      setUser(data);
+      queryClient.invalidateQueries({
+        queryKey: authGetCurrentUserQueryKey(),
+      });
       addNotification({
         type: 'success',
         title: 'Profile updated',
@@ -229,6 +241,9 @@ export const useUpdateProfile = (
 
 /**
  * Hook for changing password
+ *
+ * The paired OpenAPI contract does not describe a change-password operation,
+ * so this call goes through the generated client directly.
  */
 export const useChangePassword = (
   options?: Omit<
@@ -248,11 +263,18 @@ export const useChangePassword = (
     Error,
     { currentPassword: string; newPassword: string }
   >({
-    mutationFn: async ({ currentPassword, newPassword }) => {
-      return authService.changePassword({ currentPassword, newPassword });
+    mutationFn: async data => {
+      const response = await client.post<{ 200: { message: string } }, unknown, true>({
+        url: '/api/auth/change-password',
+        body: data,
+        throwOnError: true,
+      });
+      return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
+      queryClient.invalidateQueries({
+        queryKey: authGetCurrentUserQueryKey(),
+      });
       addNotification({
         type: 'success',
         title: 'Password changed',
@@ -263,82 +285,6 @@ export const useChangePassword = (
       addNotification({
         type: 'error',
         title: 'Password change failed',
-        message: error.message,
-      });
-    },
-    ...options,
-  });
-};
-
-/**
- * Hook for requesting password reset
- */
-const useRequestPasswordReset = (
-  options?: Omit<
-    UseMutationOptions<{ message: string }, Error, string>,
-    'mutationFn'
-  >
-) => {
-  const { addNotification } = useUI();
-  const queryClient = useQueryClient();
-
-  return useMutation<{ message: string }, Error, string>({
-    mutationFn: authService.requestPasswordReset,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
-      addNotification({
-        type: 'success',
-        title: 'Reset email sent',
-        message: 'Check your email for password reset instructions.',
-      });
-    },
-    onError: error => {
-      addNotification({
-        type: 'error',
-        title: 'Request failed',
-        message: error.message,
-      });
-    },
-    ...options,
-  });
-};
-
-/**
- * Hook for resetting password with token
- */
-const useResetPassword = (
-  options?: Omit<
-    UseMutationOptions<
-      { message: string },
-      Error,
-      { token: string; newPassword: string }
-    >,
-    'mutationFn'
-  >
-) => {
-  const { addNotification } = useUI();
-  const queryClient = useQueryClient();
-
-  return useMutation<
-    { message: string },
-    Error,
-    { token: string; newPassword: string }
-  >({
-    mutationFn: async ({ token, newPassword }) => {
-      return authService.resetPassword({ token, newPassword });
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: authKeys.all });
-      addNotification({
-        type: 'success',
-        title: 'Password reset',
-        message: 'Your password has been reset. You can now log in.',
-      });
-    },
-    onError: error => {
-      addNotification({
-        type: 'error',
-        title: 'Reset failed',
         message: error.message,
       });
     },

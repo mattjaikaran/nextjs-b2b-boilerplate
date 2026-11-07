@@ -21,6 +21,7 @@
 /build
 
 # misc
+/src/api/check-*
 .DS_Store
 *.pem
 

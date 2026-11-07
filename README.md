@@ -9,7 +9,7 @@ A feature-rich Next.js App Router boilerplate for B2B SaaS applications. Extends
 - **Styling**: Tailwind CSS v4 + Shadcn/ui (new-york, zinc)
 - **State**: Zustand (client state) + TanStack Query (server state)
 - **Forms**: React Hook Form + Zod validation
-- **HTTP**: Axios with interceptors (JWT refresh, Django CSRF)
+- **HTTP**: Axios with interceptors (JWT refresh, Django CSRF), generated client via `@hey-api/openapi-ts`
 - **Theme**: next-themes (light/dark/system)
 - **Icons**: Lucide React
 
@@ -50,7 +50,8 @@ A feature-rich Next.js App Router boilerplate for B2B SaaS applications. Extends
 │   ├── charts/                # Chart components
 │   └── providers/             # Theme, Query, App providers
 ├── hooks/                     # API, query, mutation, and utility hooks
-├── lib/                       # API client, services, store, utilities
+├── src/api/generated/         # Generated OpenAPI client, SDK, Zod, TanStack Query
+├── lib/                       # API client, mappers, store, utilities
 ├── forms/                     # React Hook Form + Zod forms
 ├── types/                     # TypeScript types (including organization)
 └── config/                    # App configuration
@@ -71,6 +72,31 @@ bun dev
 # Build for production
 bun run build
 ```
+
+## OpenAPI Client
+
+The client under `src/api/generated` is generated from `openapi.json`, a
+vendored copy of the paired backend contract, so the app builds before a
+backend exists. Point generation at a live contract with `OPENAPI_SPEC`:
+
+```bash
+# Regenerate after changing the contract
+bun run api:generate
+
+# Fail when src/api/generated no longer matches the contract
+bun run api:check
+
+# Use a monorepo backend contract instead
+OPENAPI_SPEC=../backend/docs/openapi/openapi.json bun run api:generate
+```
+
+Generation falls back to `backend/docs/openapi/openapi.json`, then
+`../backend/docs/openapi/openapi.json`, then the vendored `openapi.json`.
+The generated client reuses the app's axios instance from `lib/api.ts`
+through `src/api/hey-api.ts`, so auth and CSRF interceptors keep applying.
+`NEXT_PUBLIC_API_BASE_URL` is the backend origin (for example
+`http://localhost:8000`); generated paths already carry the `/api` prefix.
+`bun run gauntlet` runs `api:check` before lint and the other gates.
 
 ## Dashboard Sidebar Navigation
 
