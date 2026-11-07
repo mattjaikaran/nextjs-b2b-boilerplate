@@ -46,7 +46,7 @@ export const config: AppConfig = {
   api: {
     baseUrl: getEnvVar(
       'NEXT_PUBLIC_API_BASE_URL',
-      isDjangoSPAMode ? '/api/v1' : 'http://localhost:8000/api/v1'
+      isDjangoSPAMode ? '' : 'http://localhost:8000'
     ),
     timeout: parseInt(getEnvVar('NEXT_PUBLIC_API_TIMEOUT', '10000')),
     retries: parseInt(getEnvVar('NEXT_PUBLIC_API_RETRIES', '3')),

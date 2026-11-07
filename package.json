@@ -10,7 +10,9 @@
     "doctor": "react-doctor",
     "check-conventions": "bun run scripts/check_conventions.ts",
     "check-dependencies": "bun run scripts/check_dependencies.ts",
-    "gauntlet": "bun run lint && bun run check-conventions && bun run check-dependencies"
+    "api:generate": "bun run scripts/api-generate.ts",
+    "api:check": "bun run scripts/api-check.ts",
+    "gauntlet": "bun run api:check && bun run lint && bun run check-conventions && bun run check-dependencies"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
@@ -33,6 +35,7 @@
     "zustand": "5.0.11"
   },
   "devDependencies": {
+    "@hey-api/openapi-ts": "0.99.0",
     "@tailwindcss/postcss": "4",
     "@types/node": "20",
     "@types/react": "19",

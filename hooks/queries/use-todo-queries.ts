@@ -2,18 +2,21 @@
 
 /**
  * Todo Query Hooks
- * React Query hooks for fetching todo-related data
+ * React Query hooks backed by the generated OpenAPI SDK.
  */
 
-import type { TodoStats } from '@/lib/api/services';
-import { todoKeys, todoService } from '@/lib/api/services';
-import type { PaginatedResponse, QueryParams, Todo } from '@/types';
+import { todoListTodosQueryKey } from '@/api/generated/@tanstack/react-query.gen';
+import { todoListTodos } from '@/api/generated/sdk.gen';
 import {
-  InfiniteData,
-  useInfiniteQuery,
-  useQuery,
-  UseQueryOptions,
-} from '@tanstack/react-query';
+  toPaginatedTodos,
+  toTodo,
+  toTodoQuery,
+  toTodoStats,
+} from '@/lib/api-mappers';
+import type { PaginatedResponse, QueryParams, Todo, TodoStats } from '@/types';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+
+const STATS_QUERY = { page_size: 100 };
 
 /**
  * Hook to fetch paginated todos
@@ -25,48 +28,15 @@ export const useTodos = (
     'queryKey' | 'queryFn'
   >
 ) => {
+  const query = toTodoQuery(params);
+
   return useQuery<PaginatedResponse<Todo>, Error>({
-    queryKey: todoKeys.list(params),
-    queryFn: () => todoService.getAll(params),
-    staleTime: 30 * 1000, // 30 seconds
-    ...options,
-  });
-};
-
-/**
- * Hook to fetch infinite/load-more todos
- */
-const useInfiniteTodos = (params?: Omit<QueryParams, 'page'>) => {
-  return useInfiniteQuery<
-    PaginatedResponse<Todo>,
-    Error,
-    InfiniteData<PaginatedResponse<Todo>>,
-    readonly unknown[],
-    number
-  >({
-    queryKey: [...todoKeys.lists(), 'infinite', params],
-    queryFn: ({ pageParam }) =>
-      todoService.getAll({ ...params, page: pageParam }),
-    initialPageParam: 1,
-    getNextPageParam: lastPage => {
-      const { page, totalPages } = lastPage.pagination;
-      return page < totalPages ? page + 1 : undefined;
+    queryKey: todoListTodosQueryKey({ query }),
+    queryFn: async () => {
+      const { data } = await todoListTodos({ query, throwOnError: true });
+      return toPaginatedTodos(data, params);
     },
-  });
-};
-
-/**
- * Hook to fetch a single todo by ID
- */
-const useTodo = (
-  id: string,
-  options?: Omit<UseQueryOptions<Todo, Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo, Error>({
-    queryKey: todoKeys.detail(id),
-    queryFn: () => todoService.getById(id),
-    enabled: !!id,
-    staleTime: 60 * 1000, // 1 minute
+    staleTime: 30 * 1000, // 30 seconds
     ...options,
   });
 };
@@ -78,82 +48,15 @@ export const useTodoStats = (
   options?: Omit<UseQueryOptions<TodoStats, Error>, 'queryKey' | 'queryFn'>
 ) => {
   return useQuery<TodoStats, Error>({
-    queryKey: todoKeys.stats(),
-    queryFn: () => todoService.getStats(),
+    queryKey: todoListTodosQueryKey({ query: STATS_QUERY }),
+    queryFn: async () => {
+      const { data } = await todoListTodos({
+        query: STATS_QUERY,
+        throwOnError: true,
+      });
+      return toTodoStats(data.results.map(toTodo));
+    },
     staleTime: 60 * 1000, // 1 minute
-    ...options,
-  });
-};
-
-/**
- * Hook to fetch todos by priority
- */
-const useTodosByPriority = (
-  priority: 'low' | 'medium' | 'high',
-  params?: Omit<QueryParams, 'filters'>,
-  options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo[], Error>({
-    queryKey: todoKeys.byPriority(priority),
-    queryFn: () => todoService.getByPriority(priority, params),
-    ...options,
-  });
-};
-
-/**
- * Hook to fetch todos by completion status
- */
-const useTodosByStatus = (
-  completed: boolean,
-  params?: Omit<QueryParams, 'filters'>,
-  options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo[], Error>({
-    queryKey: todoKeys.byStatus(completed),
-    queryFn: () => todoService.getByStatus(completed, params),
-    ...options,
-  });
-};
-
-/**
- * Hook to fetch overdue todos
- */
-const useOverdueTodos = (
-  options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo[], Error>({
-    queryKey: ['todos', 'overdue'],
-    queryFn: () => todoService.getOverdue(),
-    refetchInterval: 5 * 60 * 1000, // Refetch every 5 minutes
-    ...options,
-  });
-};
-
-/**
- * Hook to fetch todos due today
- */
-const useTodosDueToday = (
-  options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo[], Error>({
-    queryKey: ['todos', 'due-today'],
-    queryFn: () => todoService.getDueToday(),
-    ...options,
-  });
-};
-
-/**
- * Hook to search todos
- */
-const useSearchTodos = (
-  query: string,
-  params?: QueryParams,
-  options?: Omit<UseQueryOptions<Todo[], Error>, 'queryKey' | 'queryFn'>
-) => {
-  return useQuery<Todo[], Error>({
-    queryKey: ['todos', 'search', query, params],
-    queryFn: () => todoService.search(query, params),
-    enabled: query.length >= 2,
     ...options,
   });
 };

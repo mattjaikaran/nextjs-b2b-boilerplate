@@ -1,12 +1,9 @@
-'use client';
-
 import { config, isDjangoSPA } from '@/config';
 import { getCSRFToken } from '@/lib/django-integration';
-import type { ApiError, ApiResponse, QueryParams } from '@/types';
+import type { ApiError, ApiResponse } from '@/types';
 import axios, {
   AxiosError,
   AxiosInstance,
-  AxiosRequestConfig,
   AxiosResponse,
   InternalAxiosRequestConfig,
 } from 'axios';
@@ -33,7 +30,10 @@ const createApiInstance = (): AxiosInstance => {
 
   instance.interceptors.request.use(
     (requestConfig: InternalAxiosRequestConfig) => {
-      const token = localStorage.getItem(config.auth.tokenKey);
+      const token =
+        typeof window === 'undefined'
+          ? null
+          : localStorage.getItem(config.auth.tokenKey);
       if (token) {
         requestConfig.headers.Authorization = `Bearer ${token}`;
       }
@@ -69,13 +69,14 @@ const createApiInstance = (): AxiosInstance => {
         originalRequest._retry = true;
 
         try {
-          const refreshToken = localStorage.getItem(
-            config.auth.refreshTokenKey
-          );
+          const refreshToken =
+            typeof window === 'undefined'
+              ? null
+              : localStorage.getItem(config.auth.refreshTokenKey);
           if (refreshToken) {
             const refreshPath = isDjangoSPA()
-              ? '/token/refresh'
-              : '/auth/refresh';
+              ? `${config.django?.apiPrefix ?? '/api'}/token/refresh`
+              : '/api/auth/refresh';
             const refreshPayload = isDjangoSPA()
               ? { refresh: refreshToken }
               : { refreshToken };
@@ -101,10 +102,12 @@ const createApiInstance = (): AxiosInstance => {
             return instance(originalRequest);
           }
         } catch (refreshError) {
-          localStorage.removeItem(config.auth.tokenKey);
-          localStorage.removeItem(config.auth.refreshTokenKey);
-          localStorage.removeItem('user');
-          window.location.href = '/login';
+          if (typeof window !== 'undefined') {
+            localStorage.removeItem(config.auth.tokenKey);
+            localStorage.removeItem(config.auth.refreshTokenKey);
+            localStorage.removeItem('user');
+            window.location.assign('/login');
+          }
           return Promise.reject(refreshError);
         }
       }
@@ -139,11 +142,3 @@ const createApiInstance = (): AxiosInstance => {
 
 export const api = createApiInstance();
 
-export const handleApiResponse = <T>(
-  response: AxiosResponse<ApiResponse<T>>
-): T => {
-  if (response.data.success && response.data.data !== undefined) {
-    return response.data.data;
-  }
-  throw new Error(response.data.message || 'API request failed');
-};

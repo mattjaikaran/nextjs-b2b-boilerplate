@@ -10,7 +10,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -19,11 +18,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { TagInput } from '@/forms/todos/TagInput';
 import { useCreateTodo, useUpdateTodo } from '@/hooks';
 import type { CreateTodoRequest, Todo, UpdateTodoRequest } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2, Plus, X } from 'lucide-react';
-import { useState } from 'react';
+import { Loader2 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -48,9 +47,6 @@ interface TodoFormProps {
 }
 
 export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
-  const [tagInput, setTagInput] = useState('');
-  const [tags, setTags] = useState<string[]>(todo?.tags || []);
-
   const createTodoMutation = useCreateTodo();
   const updateTodoMutation = useUpdateTodo();
 
@@ -70,38 +66,18 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
   });
 
   const onSubmit = async (data: CreateTodoRequest) => {
-    const todoData = { ...data, tags };
-
     try {
       if (isEditing) {
         await updateTodoMutation.mutateAsync({
           id: todo.id,
-          updates: todoData as UpdateTodoRequest,
+          updates: data as UpdateTodoRequest,
         });
       } else {
-        await createTodoMutation.mutateAsync(todoData);
+        await createTodoMutation.mutateAsync(data);
       }
       onSuccess?.();
     } catch {
       // Error is handled by the mutation hooks
-    }
-  };
-
-  const addTag = () => {
-    if (tagInput.trim() && !tags.includes(tagInput.trim())) {
-      setTags([...tags, tagInput.trim()]);
-      setTagInput('');
-    }
-  };
-
-  const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
-  };
-
-  const handleTagKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      addTag();
     }
   };
 
@@ -194,45 +170,21 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label>Tags</Label>
-            <div className="flex gap-2">
-              <Input
-                placeholder="Add a tag"
-                value={tagInput}
-                onChange={e => setTagInput(e.target.value)}
-                onKeyDown={handleTagKeyDown}
-              />
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={addTag}
-                disabled={!tagInput.trim()}
-              >
-                <Plus className="h-4 w-4" />
-              </Button>
-            </div>
-            {tags.length > 0 && (
-              <div className="mt-2 flex flex-wrap gap-2">
-                {tags.map(tag => (
-                  <span
-                    key={tag}
-                    className="inline-flex items-center gap-1 rounded-md bg-secondary px-2 py-1 text-xs text-secondary-foreground"
-                  >
-                    {tag}
-                    <button
-                      type="button"
-                      onClick={() => removeTag(tag)}
-                      className="hover:text-destructive"
-                    >
-                      <X className="h-3 w-3" />
-                    </button>
-                  </span>
-                ))}
-              </div>
+          <FormField
+            control={form.control}
+            name="tags"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <TagInput
+                    value={field.value ?? []}
+                    onChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </div>
+          />
 
           <div className="flex gap-2 pt-4">
             <Button type="submit" disabled={isLoading} className="flex-1">

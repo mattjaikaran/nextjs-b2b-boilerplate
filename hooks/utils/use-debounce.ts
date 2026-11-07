@@ -36,7 +36,10 @@ const useDebouncedCallback = <T extends (...args: any[]) => unknown>(
 ): ((...args: Parameters<T>) => void) => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
-  callbackRef.current = callback;
+
+  useEffect(() => {
+    callbackRef.current = callback;
+  }, [callback]);
 
   const debouncedCallback = useCallback(
     (...args: Parameters<T>) => {

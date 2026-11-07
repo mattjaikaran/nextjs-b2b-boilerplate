@@ -24,6 +24,14 @@ export interface UpdateTodoRequest extends Partial<CreateTodoRequest> {
   completed?: boolean;
 }
 
+export interface TodoStats {
+  total: number;
+  completed: number;
+  pending: number;
+  overdue: number;
+  byPriority: Record<string, number>;
+}
+
 export interface TodoState {
   todos: Todo[];
   isLoading: boolean;
