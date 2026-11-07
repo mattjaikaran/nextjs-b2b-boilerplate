@@ -1,5 +1,6 @@
 'use client';
 
+import { AuthBootstrap } from './auth-bootstrap';
 import { ThemeProvider } from './theme-provider';
 import { QueryProvider } from './query-provider';
 import { Toaster } from '@/components/ui/sonner';
@@ -17,6 +18,7 @@ export function AppProviders({ children }: AppProvidersProps) {
       disableTransitionOnChange
     >
       <QueryProvider>
+        <AuthBootstrap />
         {children}
         <Toaster />
       </QueryProvider>

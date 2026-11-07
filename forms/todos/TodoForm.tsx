@@ -18,7 +18,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { TagInput } from '@/forms/todos/TagInput';
 import { useCreateTodo, useUpdateTodo } from '@/hooks';
 import type { CreateTodoRequest, Todo, UpdateTodoRequest } from '@/types';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,8 +35,6 @@ const todoSchema = z.object({
     .max(500, 'Description must be less than 500 characters')
     .optional(),
   priority: z.enum(['low', 'medium', 'high']),
-  dueDate: z.string().optional(),
-  tags: z.array(z.string()).optional(),
 });
 
 interface TodoFormProps {
@@ -60,8 +57,6 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
       title: todo?.title || '',
       description: todo?.description || '',
       priority: todo?.priority || 'medium',
-      dueDate: todo?.dueDate || '',
-      tags: todo?.tags || [],
     },
   });
 
@@ -128,59 +123,27 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
             )}
           />
 
-          <div className="grid grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Priority</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select priority" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="low">Low</SelectItem>
-                      <SelectItem value="medium">Medium</SelectItem>
-                      <SelectItem value="high">High</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="dueDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Due Date</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <FormField
             control={form.control}
-            name="tags"
+            name="priority"
             render={({ field }) => (
               <FormItem>
-                <FormControl>
-                  <TagInput
-                    value={field.value ?? []}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
+                <FormLabel>Priority</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select priority" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="low">Low</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

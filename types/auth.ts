@@ -27,13 +27,15 @@ export interface MagicLinkRequest {
 
 export interface AuthResponse {
   user: User;
-  tokens: AuthTokens;
+  /** Cookie-authenticated backends return no bearer tokens. */
+  tokens: AuthTokens | null;
 }
 
 export interface AuthState {
   user: User | null;
   tokens: AuthTokens | null;
   isAuthenticated: boolean;
+  hasHydrated: boolean;
   isLoading: boolean;
   error: string | null;
 }

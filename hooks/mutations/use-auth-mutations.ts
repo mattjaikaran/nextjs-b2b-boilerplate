@@ -6,7 +6,6 @@
  */
 
 import { authGetCurrentUserQueryKey } from '@/api/generated/@tanstack/react-query.gen';
-import { client } from '@/api/generated/client.gen';
 import {
   authLogin,
   authLogout,
@@ -232,59 +231,6 @@ export const useUpdateProfile = (
       addNotification({
         type: 'error',
         title: 'Update failed',
-        message: error.message,
-      });
-    },
-    ...options,
-  });
-};
-
-/**
- * Hook for changing password
- *
- * The paired OpenAPI contract does not describe a change-password operation,
- * so this call goes through the generated client directly.
- */
-export const useChangePassword = (
-  options?: Omit<
-    UseMutationOptions<
-      { message: string },
-      Error,
-      { currentPassword: string; newPassword: string }
-    >,
-    'mutationFn'
-  >
-) => {
-  const { addNotification } = useUI();
-  const queryClient = useQueryClient();
-
-  return useMutation<
-    { message: string },
-    Error,
-    { currentPassword: string; newPassword: string }
-  >({
-    mutationFn: async data => {
-      const response = await client.post<{ 200: { message: string } }, unknown, true>({
-        url: '/api/auth/change-password',
-        body: data,
-        throwOnError: true,
-      });
-      return response.data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: authGetCurrentUserQueryKey(),
-      });
-      addNotification({
-        type: 'success',
-        title: 'Password changed',
-        message: 'Your password has been changed successfully.',
-      });
-    },
-    onError: error => {
-      addNotification({
-        type: 'error',
-        title: 'Password change failed',
         message: error.message,
       });
     },

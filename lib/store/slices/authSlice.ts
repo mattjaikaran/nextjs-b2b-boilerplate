@@ -1,74 +1,82 @@
 'use client';
 
-import type {
-  AuthState,
-  AuthTokens,
-  LoginCredentials,
-  MagicLinkRequest,
-  RegisterCredentials,
-  User,
-} from '@/types';
+import type { AuthState, AuthTokens, User } from '@/types';
 import { create } from 'zustand';
 
+const USER_KEY = 'user:v1';
+const ACCESS_TOKEN_KEY = 'auth_token';
+const REFRESH_TOKEN_KEY = 'refresh_token';
+
 export interface AuthSlice extends AuthState {
-  login: (data: { user: User; tokens: AuthTokens }) => void;
-  register: (data: { user: User; tokens: AuthTokens }) => void;
+  login: (data: { user: User; tokens?: AuthTokens | null }) => void;
+  register: (data: { user: User; tokens?: AuthTokens | null }) => void;
   logout: () => void;
   setUser: (user: User) => void;
-  setTokens: (tokens: AuthTokens) => void;
+  setTokens: (tokens: AuthTokens | null) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   clearError: () => void;
   initializeAuth: () => void;
 }
 
+const readTokens = (): AuthTokens | null => {
+  if (typeof window === 'undefined') return null;
+  const accessToken = localStorage.getItem(ACCESS_TOKEN_KEY);
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+  if (!accessToken || !refreshToken) return null;
+  return { accessToken, refreshToken };
+};
+
+const clearStoredSession = () => {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(REFRESH_TOKEN_KEY);
+  localStorage.removeItem(USER_KEY);
+};
+
 export const useAuthStore = create<AuthSlice>((set, get) => ({
   user: null,
   tokens: null,
   isAuthenticated: false,
+  hasHydrated: false,
   isLoading: false,
   error: null,
 
   login: (data) => {
+    const tokens = data.tokens ?? null;
     if (typeof window !== 'undefined') {
-      localStorage.setItem('auth_token', data.tokens.accessToken);
-      localStorage.setItem('refresh_token', data.tokens.refreshToken);
-      localStorage.setItem('user:v1', JSON.stringify(data.user));
+      // Cookie-authenticated backends return no bearer tokens; do not leave
+      // stale credentials behind from a previous session.
+      if (tokens) {
+        localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
+        localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
+      } else {
+        localStorage.removeItem(ACCESS_TOKEN_KEY);
+        localStorage.removeItem(REFRESH_TOKEN_KEY);
+      }
+      localStorage.setItem(USER_KEY, JSON.stringify(data.user));
     }
     set({
       user: data.user,
-      tokens: data.tokens,
+      tokens,
       isAuthenticated: true,
+      hasHydrated: true,
       isLoading: false,
       error: null,
     });
   },
 
   register: (data) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('auth_token', data.tokens.accessToken);
-      localStorage.setItem('refresh_token', data.tokens.refreshToken);
-      localStorage.setItem('user:v1', JSON.stringify(data.user));
-    }
-    set({
-      user: data.user,
-      tokens: data.tokens,
-      isAuthenticated: true,
-      isLoading: false,
-      error: null,
-    });
+    get().login(data);
   },
 
   logout: () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user:v1');
-    }
+    clearStoredSession();
     set({
       user: null,
       tokens: null,
       isAuthenticated: false,
+      hasHydrated: true,
       isLoading: false,
       error: null,
     });
@@ -77,15 +85,19 @@ export const useAuthStore = create<AuthSlice>((set, get) => ({
   setUser: (user) => {
     set({ user });
     if (typeof window !== 'undefined') {
-      localStorage.setItem('user:v1', JSON.stringify(user));
+      localStorage.setItem(USER_KEY, JSON.stringify(user));
     }
   },
 
   setTokens: (tokens) => {
     set({ tokens });
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('auth_token', tokens.accessToken);
-      localStorage.setItem('refresh_token', tokens.refreshToken);
+    if (typeof window === 'undefined') return;
+    if (tokens) {
+      localStorage.setItem(ACCESS_TOKEN_KEY, tokens.accessToken);
+      localStorage.setItem(REFRESH_TOKEN_KEY, tokens.refreshToken);
+    } else {
+      localStorage.removeItem(ACCESS_TOKEN_KEY);
+      localStorage.removeItem(REFRESH_TOKEN_KEY);
     }
   },
 
@@ -96,23 +108,29 @@ export const useAuthStore = create<AuthSlice>((set, get) => ({
   initializeAuth: () => {
     if (typeof window === 'undefined') return;
     try {
-      const token = localStorage.getItem('auth_token');
-      const refreshToken = localStorage.getItem('refresh_token');
-      const userStr = localStorage.getItem('user:v1');
-
-      if (token && refreshToken && userStr) {
-        const user = JSON.parse(userStr);
-        set({
-          user,
-          tokens: { accessToken: token, refreshToken },
-          isAuthenticated: true,
-        });
+      const userStr = localStorage.getItem(USER_KEY);
+      if (!userStr) {
+        set({ hasHydrated: true });
+        return;
       }
+      const user = JSON.parse(userStr) as User;
+      set({
+        user,
+        // Cookie sessions have no bearer tokens; the HttpOnly cookies are
+        // sent by the axios instance, so the cached user is enough to restore.
+        tokens: readTokens(),
+        isAuthenticated: true,
+        hasHydrated: true,
+      });
     } catch (error) {
       console.error('Failed to initialize auth:', error);
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user:v1');
+      clearStoredSession();
+      set({
+        user: null,
+        tokens: null,
+        isAuthenticated: false,
+        hasHydrated: true,
+      });
     }
   },
 }));

@@ -14,7 +14,6 @@ import type {
   RegisterCredentials,
   Todo,
   TodoPriority,
-  TodoStats,
   UpdateTodoRequest,
   User,
 } from '@/types';
@@ -35,7 +34,6 @@ export const toTodo = (todo: TodoSchema): Todo => ({
   createdAt: todo.created_at,
   updatedAt: todo.updated_at,
   userId: todo.user,
-  tags: [],
 });
 
 export const toUser = (user: UserSchema): User => ({
@@ -51,7 +49,7 @@ export const toUser = (user: UserSchema): User => ({
 
 export const toAuthResponse = (user: UserSchema): AuthResponse => ({
   user: toUser(user),
-  tokens: { accessToken: '', refreshToken: '' },
+  tokens: null,
 });
 
 export const toTodoQuery = (params?: QueryParams) => ({
@@ -73,7 +71,7 @@ export const toPaginatedTodos = (
   response: PaginatedResponseSchemaTodoSchema,
   params?: QueryParams
 ): PaginatedResponse<Todo> => {
-  const limit = params?.page_size ?? response.results.length;
+  const limit = params?.page_size ?? 50;
   return {
     data: response.results.map(toTodo),
     pagination: {
@@ -84,17 +82,6 @@ export const toPaginatedTodos = (
     },
   };
 };
-
-export const toTodoStats = (todos: Todo[]): TodoStats => ({
-  total: todos.length,
-  completed: todos.filter(todo => todo.completed).length,
-  pending: todos.filter(todo => !todo.completed).length,
-  overdue: 0,
-  byPriority: todos.reduce<Record<string, number>>((counts, todo) => {
-    counts[todo.priority] = (counts[todo.priority] ?? 0) + 1;
-    return counts;
-  }, {}),
-});
 
 export const toCreateTodoBody = (
   todo: CreateTodoRequest
@@ -117,13 +104,13 @@ export const toUpdateTodoBody = (
 export const toSignupBody = (
   credentials: RegisterCredentials
 ): UserSignupSchema => {
-  const localPart = credentials.email
-    .split('@')[0]
-    .replace(/[^a-zA-Z0-9_]/g, '')
+  // Keep the domain so users with the same local part do not collide.
+  const username = credentials.email
+    .replace(/[^a-zA-Z0-9_]/g, '_')
     .slice(0, 100);
   return {
     email: credentials.email,
-    username: localPart.length >= 3 ? localPart : `user${Date.now()}`,
+    username: username.length >= 3 ? username : `user_${username}`.slice(0, 100),
     password: credentials.password,
     firstName: credentials.firstName,
     lastName: credentials.lastName,

@@ -7,7 +7,6 @@ export {
 } from './queries';
 
 export {
-  useChangePassword,
   useCreateTodo,
   useLogin,
   useLogout,

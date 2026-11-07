@@ -4,12 +4,6 @@ export interface ProfileForm {
   email: string;
 }
 
-export interface PasswordForm {
-  currentPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
-
 export interface NotificationsState {
   emailNotifications: boolean;
   pushNotifications: boolean;

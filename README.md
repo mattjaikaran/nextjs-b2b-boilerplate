@@ -94,6 +94,11 @@ Generation falls back to `backend/docs/openapi/openapi.json`, then
 `../backend/docs/openapi/openapi.json`, then the vendored `openapi.json`.
 The generated client reuses the app's axios instance from `lib/api.ts`
 through `src/api/hey-api.ts`, so auth and CSRF interceptors keep applying.
+The paired backend authenticates with HttpOnly `access_token` and
+`refresh_token` cookies, so the axios instance sends credentials on every
+request; the backend must allow this app's origin with credentialed CORS
+(for example `CORS_ALLOW_CREDENTIALS = True`). Login and signup responses
+contain only the user, and the cached user restores the session on reload.
 `NEXT_PUBLIC_API_BASE_URL` is the backend origin (for example
 `http://localhost:8000`); generated paths already carry the `/api` prefix.
 `bun run gauntlet` runs `api:check` before lint and the other gates.

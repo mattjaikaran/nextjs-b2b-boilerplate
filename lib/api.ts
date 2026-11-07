@@ -1,5 +1,6 @@
 import { config, isDjangoSPA } from '@/config';
 import { getCSRFToken } from '@/lib/django-integration';
+import { useAuthStore } from '@/lib/store/slices/authSlice';
 import type { ApiError, ApiResponse } from '@/types';
 import axios, {
   AxiosError,
@@ -25,7 +26,9 @@ const createApiInstance = (): AxiosInstance => {
     headers: {
       'Content-Type': 'application/json',
     },
-    withCredentials: isDjangoSPA(),
+    // The paired backend authenticates with HttpOnly cookies, so every
+    // request must opt in to sending and storing them.
+    withCredentials: true,
   });
 
   instance.interceptors.request.use(
@@ -61,29 +64,28 @@ const createApiInstance = (): AxiosInstance => {
         | ExtendedAxiosRequestConfig
         | undefined;
 
+      const refreshToken =
+        typeof window === 'undefined'
+          ? null
+          : localStorage.getItem(config.auth.refreshTokenKey);
+      const canRefresh = isDjangoSPA()
+        ? !!refreshToken
+        : useAuthStore.getState().isAuthenticated;
+
       if (
         error.response?.status === 401 &&
         originalRequest &&
-        !originalRequest._retry
+        !originalRequest._retry &&
+        canRefresh
       ) {
         originalRequest._retry = true;
 
         try {
-          const refreshToken =
-            typeof window === 'undefined'
-              ? null
-              : localStorage.getItem(config.auth.refreshTokenKey);
-          if (refreshToken) {
-            const refreshPath = isDjangoSPA()
-              ? `${config.django?.apiPrefix ?? '/api'}/token/refresh`
-              : '/api/auth/refresh';
-            const refreshPayload = isDjangoSPA()
-              ? { refresh: refreshToken }
-              : { refreshToken };
-
+          if (isDjangoSPA()) {
+            const refreshPath = `${config.django?.apiPrefix ?? '/api'}/token/refresh`;
             const response = await instance.post<
               ApiResponse<{ accessToken: string }> | { access: string }
-            >(refreshPath, refreshPayload);
+            >(refreshPath, { refresh: refreshToken });
 
             let newToken: string;
             if ('access' in response.data) {
@@ -99,14 +101,23 @@ const createApiInstance = (): AxiosInstance => {
 
             localStorage.setItem(config.auth.tokenKey, newToken);
             originalRequest.headers.Authorization = `Bearer ${newToken}`;
-            return instance(originalRequest);
+          } else {
+            // The paired backend rotates the HttpOnly refresh cookie. The
+            // request body is empty; the cookie carries the credential.
+            await instance.post(
+              '/api/auth/refresh',
+              undefined,
+              { _retry: true } as ExtendedAxiosRequestConfig
+            );
           }
+
+          return instance(originalRequest);
         } catch (refreshError) {
           if (typeof window !== 'undefined') {
-            localStorage.removeItem(config.auth.tokenKey);
-            localStorage.removeItem(config.auth.refreshTokenKey);
-            localStorage.removeItem('user');
-            window.location.assign('/login');
+            useAuthStore.getState().logout();
+            if (window.location.pathname !== '/login') {
+              window.location.assign('/login');
+            }
           }
           return Promise.reject(refreshError);
         }
