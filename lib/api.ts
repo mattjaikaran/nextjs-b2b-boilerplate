@@ -141,4 +141,3 @@ const createApiInstance = (): AxiosInstance => {
 };
 
 export const api = createApiInstance();
-
