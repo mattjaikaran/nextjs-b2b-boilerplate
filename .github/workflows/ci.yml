@@ -10,8 +10,8 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  gauntlet:
-    name: Gauntlet
+  checks:
+    name: Typecheck and dependency gate
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
@@ -20,4 +20,5 @@ jobs:
         with:
           bun-version: 1.4.4
       - run: bun install --frozen-lockfile
-      - run: bun run gauntlet
+      - run: bunx tsc --noEmit
+      - run: bun run check-dependencies
