@@ -1,0 +1,5 @@
+#!/bin/sh
+# Enforce the agent-docs gate before every commit.
+# Enable once per clone: bun run hooks:install
+set -eu
+bun run check-agents

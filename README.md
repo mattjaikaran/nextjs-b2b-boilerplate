@@ -124,6 +124,12 @@ contain only the user, and the cached user restores the session on reload.
 - [react-vite-boilerplate](https://github.com/mattjaikaran/react-vite-boilerplate) - React Vite version
 - [matt-stack](https://github.com/mattjaikaran/matt-stack) - CLI for scaffolding projects
 
+## Contributing
+
+Agent and contributor instructions live in [AGENTS.md](AGENTS.md): commands, gates, commit
+rules, and links from [docs/architecture.md](docs/architecture.md). Run the gates listed
+there before committing.
+
 ## License
 
 MIT
