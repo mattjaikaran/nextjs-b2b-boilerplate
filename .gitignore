@@ -40,3 +40,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# personal agent overrides
+AGENTS.local.md
+CLAUDE.local.md
+.claude/settings.local.json
