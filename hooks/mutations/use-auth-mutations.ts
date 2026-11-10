@@ -19,8 +19,10 @@ import {
   toUser,
   toUserUpdateBody,
 } from '@/lib/api-mappers';
+import { api } from '@/lib/api';
 import { useAuth, useUI } from '@/lib/store';
 import type {
+  ApiResponse,
   AuthResponse,
   LoginCredentials,
   MagicLinkRequest,
@@ -231,6 +233,58 @@ export const useUpdateProfile = (
       addNotification({
         type: 'error',
         title: 'Update failed',
+        message: error.message,
+      });
+    },
+    ...options,
+  });
+};
+
+/**
+ * Hook for changing password.
+ *
+ * The paired contract has no change-password operation, so this posts through
+ * the shared axios instance, which keeps auth, refresh and error handling.
+ */
+export const useChangePassword = (
+  options?: Omit<
+    UseMutationOptions<
+      { message: string },
+      Error,
+      { currentPassword: string; newPassword: string }
+    >,
+    'mutationFn'
+  >
+) => {
+  const { addNotification } = useUI();
+  const queryClient = useQueryClient();
+
+  return useMutation<
+    { message: string },
+    Error,
+    { currentPassword: string; newPassword: string }
+  >({
+    mutationFn: async ({ currentPassword, newPassword }) => {
+      const response = await api.post<
+        { message: string } | ApiResponse<{ message: string }>
+      >('/api/auth/change-password', { currentPassword, newPassword });
+      const payload = response.data;
+      return 'success' in payload ? payload.data : payload;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: authGetCurrentUserQueryKey(),
+      });
+      addNotification({
+        type: 'success',
+        title: 'Password changed',
+        message: 'Your password has been changed successfully.',
+      });
+    },
+    onError: error => {
+      addNotification({
+        type: 'error',
+        title: 'Password change failed',
         message: error.message,
       });
     },
