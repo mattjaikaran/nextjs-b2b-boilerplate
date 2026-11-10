@@ -7,6 +7,7 @@
 
 // Auth mutations
 export {
+  useChangePassword,
   useLogin,
   useLogout,
   useMagicLink,

@@ -1,6 +1,6 @@
 'use client';
 
-import { useUpdateProfile } from '@/hooks';
+import { useChangePassword, useUpdateProfile } from '@/hooks';
 import { useAuth } from '@/lib/store';
 import { cn } from '@/lib/utils';
 import {
@@ -17,7 +17,12 @@ import { ApiKeysTab } from './api-keys-tab';
 import { BillingTab } from './billing-tab';
 import { NotificationsTab } from './notifications-tab';
 import { PrivacyTab } from './privacy-tab';
-import type { NotificationsState, ProfileForm, SettingsTab } from './settings-types';
+import type {
+  NotificationsState,
+  PasswordForm,
+  ProfileForm,
+  SettingsTab,
+} from './settings-types';
 import { TeamTab } from './team-tab';
 
 const tabs: { id: SettingsTab; label: string; icon: React.ElementType }[] = [
@@ -33,11 +38,18 @@ export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('account');
   const { user } = useAuth();
   const updateProfile = useUpdateProfile();
+  const changePassword = useChangePassword();
 
   const [profileForm, setProfileForm] = useState<ProfileForm>({
     firstName: (user as { firstName?: string })?.firstName || '',
     lastName: (user as { lastName?: string })?.lastName || '',
     email: user?.email || '',
+  });
+
+  const [passwordForm, setPasswordForm] = useState<PasswordForm>({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
   });
 
   const [notifications, setNotifications] = useState<NotificationsState>({
@@ -53,6 +65,15 @@ export default function SettingsPage() {
       ...profileForm,
       name: `${profileForm.firstName} ${profileForm.lastName}`.trim(),
     } as Parameters<typeof updateProfile.mutate>[0]);
+  };
+
+  const handlePasswordSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (passwordForm.newPassword !== passwordForm.confirmPassword) return;
+    changePassword.mutate({
+      currentPassword: passwordForm.currentPassword,
+      newPassword: passwordForm.newPassword,
+    });
   };
 
   return (
@@ -101,7 +122,14 @@ export default function SettingsPage() {
               onNotificationsChange={setNotifications}
             />
           )}
-          {activeTab === 'privacy' && <PrivacyTab />}
+          {activeTab === 'privacy' && (
+            <PrivacyTab
+              passwordForm={passwordForm}
+              onPasswordFormChange={setPasswordForm}
+              onPasswordSubmit={handlePasswordSubmit}
+              isPasswordPending={changePassword.isPending}
+            />
+          )}
           {activeTab === 'team' && <TeamTab />}
           {activeTab === 'billing' && <BillingTab />}
           {activeTab === 'api-keys' && <ApiKeysTab />}
