@@ -1,9 +1,5 @@
 import { MainLayout } from '@/components/layouts/MainLayout';
 
-export default function AuthGroupLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AuthGroupLayout({ children }: { children: React.ReactNode }) {
   return <MainLayout>{children}</MainLayout>;
 }

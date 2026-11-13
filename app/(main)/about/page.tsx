@@ -11,19 +11,16 @@ export default function AboutPage() {
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="space-y-4 text-center">
           <h1 className="text-4xl font-bold tracking-tight">About</h1>
-          <p className="text-xl text-muted-foreground">
-            Learn more about this Next.js boilerplate
-          </p>
+          <p className="text-xl text-muted-foreground">Learn more about this Next.js boilerplate</p>
         </div>
 
         <div className="grid gap-8">
           <div className="card-container p-8">
             <h2 className="mb-4 text-2xl font-semibold">What is this?</h2>
             <p className="leading-relaxed text-muted-foreground">
-              This is a modern Next.js application boilerplate built with App
-              Router, TypeScript, and a carefully curated set of tools and
-              libraries. It&apos;s designed to provide a solid foundation for
-              building scalable web applications with excellent developer
+              This is a modern Next.js application boilerplate built with App Router, TypeScript,
+              and a carefully curated set of tools and libraries. It&apos;s designed to provide a
+              solid foundation for building scalable web applications with excellent developer
               experience and best practices built-in.
             </p>
           </div>
@@ -36,7 +33,7 @@ export default function AboutPage() {
                 <ul className="space-y-1 text-sm text-muted-foreground">
                   <li>• App Router with server components</li>
                   <li>• TypeScript for type safety</li>
-                  <li>• ESLint for code quality</li>
+                  <li>• Oxlint for code quality</li>
                   <li>• VS Code settings and extensions</li>
                 </ul>
               </div>
@@ -73,8 +70,7 @@ export default function AboutPage() {
           <div className="card-container p-8">
             <h2 className="mb-4 text-2xl font-semibold">Architecture</h2>
             <p className="mb-4 leading-relaxed text-muted-foreground">
-              The project follows a feature-based architecture with clear
-              separation of concerns:
+              The project follows a feature-based architecture with clear separation of concerns:
             </p>
             <div className="grid gap-6 text-sm md:grid-cols-2">
               <div>

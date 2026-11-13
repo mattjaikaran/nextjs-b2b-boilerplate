@@ -2,12 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Table } from '@tanstack/react-table';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 
 interface ServerPagination {
   page: number;
@@ -48,8 +43,7 @@ export function DataTablePagination<TData>({
           </>
         ) : (
           <>
-            {table.getFilteredSelectedRowModel().rows.length} of {totalRows}{' '}
-            row(s) selected.
+            {table.getFilteredSelectedRowModel().rows.length} of {totalRows} row(s) selected.
           </>
         )}
       </div>
@@ -57,12 +51,8 @@ export function DataTablePagination<TData>({
         <div className="flex items-center gap-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <select
-            value={
-              isServerSide
-                ? serverPagination!.pageSize
-                : table.getState().pagination.pageSize
-            }
-            onChange={e => {
+            value={isServerSide ? serverPagination!.pageSize : table.getState().pagination.pageSize}
+            onChange={(e) => {
               const newSize = Number(e.target.value);
               if (onPaginationChange) {
                 onPaginationChange(1, newSize);
@@ -74,7 +64,7 @@ export function DataTablePagination<TData>({
             disabled={isLoading}
             aria-label="Rows per page"
           >
-            {[10, 20, 30, 40, 50].map(size => (
+            {[10, 20, 30, 40, 50].map((size) => (
               <option key={size} value={size}>
                 {size}
               </option>

@@ -26,10 +26,7 @@ const countTodos = async (filters: { completed?: boolean } = {}) => {
  */
 export const useTodos = (
   params?: QueryParams,
-  options?: Omit<
-    UseQueryOptions<PaginatedResponse<Todo>, Error>,
-    'queryKey' | 'queryFn'
-  >
+  options?: Omit<UseQueryOptions<PaginatedResponse<Todo>, Error>, 'queryKey' | 'queryFn'>,
 ) => {
   const query = toTodoQuery(params);
 
@@ -48,7 +45,7 @@ export const useTodos = (
  * Hook to fetch todo statistics
  */
 export const useTodoStats = (
-  options?: Omit<UseQueryOptions<TodoStats, Error>, 'queryKey' | 'queryFn'>
+  options?: Omit<UseQueryOptions<TodoStats, Error>, 'queryKey' | 'queryFn'>,
 ) => {
   return useQuery<TodoStats, Error>({
     // Mark the derived shape so it cannot collide with a useTodos page.

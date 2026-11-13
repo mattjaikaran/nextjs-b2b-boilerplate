@@ -1,18 +1,7 @@
 'use client';
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Activity,
-  DollarSign,
-  TrendingUp,
-  Users,
-} from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Activity, DollarSign, TrendingUp, Users } from 'lucide-react';
 
 const stats = [
   {
@@ -46,14 +35,12 @@ export default function AnalyticsPage() {
     <div className="gap-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-        <p className="text-muted-foreground">
-          Track your business metrics and performance.
-        </p>
+        <p className="text-muted-foreground">Track your business metrics and performance.</p>
       </div>
 
       {/* Stat cards */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map(stat => (
+        {stats.map((stat) => (
           <Card key={stat.title}>
             <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
               <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>

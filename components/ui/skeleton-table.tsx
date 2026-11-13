@@ -1,27 +1,21 @@
-import { cn } from "@/lib/utils"
-import { Skeleton } from "./skeleton"
+import { cn } from '@/lib/utils';
+import { Skeleton } from './skeleton';
 
 /**
  * Skeleton for table rows
  */
-function SkeletonTableRow({
-  columns = 4,
-  className,
-}: {
-  columns?: number;
-  className?: string;
-}) {
+function SkeletonTableRow({ columns = 4, className }: { columns?: number; className?: string }) {
   return (
-    <div className={cn("flex items-center gap-x-4 py-3", className)}>
+    <div className={cn('flex items-center gap-x-4 py-3', className)}>
       {Array.from({ length: columns }).map((_, i) => (
         <Skeleton
           key={i}
           className="h-4 flex-1"
-          style={{ maxWidth: i === 0 ? "200px" : undefined }}
+          style={{ maxWidth: i === 0 ? '200px' : undefined }}
         />
       ))}
     </div>
-  )
+  );
 }
 
 /**
@@ -37,14 +31,14 @@ function SkeletonTable({
   className?: string;
 }) {
   return (
-    <div className={cn("gap-y-1", className)}>
+    <div className={cn('gap-y-1', className)}>
       {/* Header */}
       <div className="flex items-center gap-x-4 border-b py-3">
         {Array.from({ length: columns }).map((_, i) => (
           <Skeleton
             key={i}
             className="h-4 flex-1"
-            style={{ maxWidth: i === 0 ? "200px" : undefined }}
+            style={{ maxWidth: i === 0 ? '200px' : undefined }}
           />
         ))}
       </div>
@@ -53,7 +47,7 @@ function SkeletonTable({
         <SkeletonTableRow key={i} columns={columns} />
       ))}
     </div>
-  )
+  );
 }
 
-export { SkeletonTable, SkeletonTableRow }
+export { SkeletonTable, SkeletonTableRow };

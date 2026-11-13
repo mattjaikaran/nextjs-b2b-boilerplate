@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { CreditCard } from 'lucide-react';
 
 export function BillingTab() {
@@ -28,9 +22,7 @@ export function BillingTab() {
             <CreditCard className="size-5" />
             Payment Method
           </CardTitle>
-          <CardDescription>
-            Your default payment method for billing
-          </CardDescription>
+          <CardDescription>Your default payment method for billing</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex h-20 items-center justify-center rounded-lg border border-dashed bg-muted/30 text-sm text-muted-foreground">

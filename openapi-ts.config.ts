@@ -10,7 +10,7 @@ const specCandidates = [
 
 const input =
   process.env.OPENAPI_SPEC ??
-  specCandidates.find(candidate => existsSync(candidate)) ??
+  specCandidates.find((candidate) => existsSync(candidate)) ??
   'openapi.json';
 
 export default defineConfig({

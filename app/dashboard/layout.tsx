@@ -4,11 +4,7 @@ import { DashboardLayout } from '@/components/layouts/DashboardLayout';
 import { useAuth } from '@/lib/store';
 import { redirect } from 'next/navigation';
 
-export default function DashboardGroupLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function DashboardGroupLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, hasHydrated } = useAuth();
 
   // Wait for the cached session before deciding to redirect, otherwise a

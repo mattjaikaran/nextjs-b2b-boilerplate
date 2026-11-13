@@ -106,11 +106,13 @@ contain only the user, and the cached user restores the session on reload.
 ## Dashboard Sidebar Navigation
 
 **Main**
+
 - Dashboard (overview)
 - Todos
 - Analytics
 
 **Account**
+
 - Profile
 - Settings
 - Team

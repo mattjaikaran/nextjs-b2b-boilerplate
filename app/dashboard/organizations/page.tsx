@@ -2,13 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Building2, Plus } from 'lucide-react';
 
 interface Organization {
@@ -53,7 +47,7 @@ export default function OrganizationsPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {mockOrganizations.map(org => (
+        {mockOrganizations.map((org) => (
           <Card key={org.id} className="transition-colors hover:bg-muted/50">
             <CardHeader className="flex flex-row items-start justify-between gap-y-0">
               <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10">
@@ -66,9 +60,7 @@ export default function OrganizationsPage() {
               <CardDescription className="mt-2">
                 {org.memberCount} member{org.memberCount !== 1 ? 's' : ''}
               </CardDescription>
-              <p className="mt-2 text-xs text-muted-foreground">
-                Created {org.createdAt}
-              </p>
+              <p className="mt-2 text-xs text-muted-foreground">Created {org.createdAt}</p>
             </CardContent>
           </Card>
         ))}

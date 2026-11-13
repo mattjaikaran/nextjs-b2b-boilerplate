@@ -10,12 +10,12 @@
  * Exit: 0 = all dependencies documented, 1 = missing entries.
  */
 
-import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
-import { parseArgs } from "node:util";
-import { argv, exit } from "node:process";
+import { readFileSync, existsSync } from 'node:fs';
+import { join } from 'node:path';
+import { parseArgs } from 'node:util';
+import { argv, exit } from 'node:process';
 
-const PROJECT_ROOT = new URL("..", import.meta.url).pathname;
+const PROJECT_ROOT = new URL('..', import.meta.url).pathname;
 
 interface Violation {
   check: string;
@@ -29,15 +29,12 @@ export function parseDependencyNames(pkgJson: string): string[] {
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
   };
-  return [
-    ...Object.keys(pkg.dependencies ?? {}),
-    ...Object.keys(pkg.devDependencies ?? {}),
-  ];
+  return [...Object.keys(pkg.dependencies ?? {}), ...Object.keys(pkg.devDependencies ?? {})];
 }
 
 export function parseDocumentedDependencies(depsMd: string): Set<string> {
   const names = new Set<string>();
-  for (const line of depsMd.split("\n")) {
+  for (const line of depsMd.split('\n')) {
     const match = line.trim().match(/^\|\s*([a-zA-Z0-9@/_.+-]+)\s*\|/);
     if (!match) continue;
     const name = match[1];
@@ -57,30 +54,30 @@ function main(): number {
   const { values } = parseArgs({
     args: argv.slice(2),
     options: {
-      json: { type: "boolean", default: false },
+      json: { type: 'boolean', default: false },
     },
     strict: false,
   });
 
-  const pkgJson = readFileSync(join(PROJECT_ROOT, "package.json"), "utf-8");
-  const depsMdPath = join(PROJECT_ROOT, "DEPENDENCIES.md");
+  const pkgJson = readFileSync(join(PROJECT_ROOT, 'package.json'), 'utf-8');
+  const depsMdPath = join(PROJECT_ROOT, 'DEPENDENCIES.md');
 
   const violations: Violation[] = [];
   if (!existsSync(depsMdPath)) {
     for (const name of parseDependencyNames(pkgJson)) {
       violations.push({
-        check: "MISSING_DEPENDENCY_ENTRY",
-        filepath: "DEPENDENCIES.md",
+        check: 'MISSING_DEPENDENCY_ENTRY',
+        filepath: 'DEPENDENCIES.md',
         line: 0,
         message: `"${name}" — DEPENDENCIES.md is missing; document this dependency`,
       });
     }
   } else {
-    const depsMd = readFileSync(depsMdPath, "utf-8");
+    const depsMd = readFileSync(depsMdPath, 'utf-8');
     for (const name of findMissingDependencies(pkgJson, depsMd)) {
       violations.push({
-        check: "MISSING_DEPENDENCY_ENTRY",
-        filepath: "DEPENDENCIES.md",
+        check: 'MISSING_DEPENDENCY_ENTRY',
+        filepath: 'DEPENDENCIES.md',
         line: 0,
         message: `"${name}" — document this dependency in DEPENDENCIES.md`,
       });
@@ -100,20 +97,18 @@ function main(): number {
           count: violations.length,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
   } else {
     if (violations.length === 0) {
-      console.log("All dependencies documented.");
+      console.log('All dependencies documented.');
     }
     for (const v of violations) {
       console.log(`[${v.check}] ${v.filepath} — ${v.message}`);
     }
     console.log(
-      violations.length
-        ? `\n${violations.length} violation(s) found.`
-        : "\n0 violations."
+      violations.length ? `\n${violations.length} violation(s) found.` : '\n0 violations.',
     );
   }
 

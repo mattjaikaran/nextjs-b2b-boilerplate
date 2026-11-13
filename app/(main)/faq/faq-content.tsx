@@ -92,9 +92,7 @@ export function FAQContent() {
   return (
     <div className="container mx-auto max-w-4xl px-4 py-12">
       <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight">
-          Frequently Asked Questions
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight">Frequently Asked Questions</h1>
         <p className="mt-4 text-lg text-muted-foreground">
           Find answers to common questions about our service
         </p>
@@ -102,7 +100,7 @@ export function FAQContent() {
 
       <div className="mt-12">
         <div className="divide-y divide-border">
-          {faqData.map(item => (
+          {faqData.map((item) => (
             <FAQItemCard key={item.id} item={item} />
           ))}
         </div>
@@ -111,8 +109,7 @@ export function FAQContent() {
       <div className="mt-12 rounded-lg bg-muted p-8 text-center">
         <h2 className="text-xl font-semibold">Still have questions?</h2>
         <p className="mt-2 text-muted-foreground">
-          Can&apos;t find the answer you&apos;re looking for? Please contact our
-          support team.
+          Can&apos;t find the answer you&apos;re looking for? Please contact our support team.
         </p>
         <div className="mt-4">
           <Button asChild>

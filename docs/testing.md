@@ -5,15 +5,15 @@ tests are not part of the gate.
 
 ## What runs
 
-| Check | Command |
-| --- | --- |
-| Lint | `bun run lint` |
-| Typecheck | `bun run typecheck` |
-| Conventions | `bun run check-conventions` |
+| Check                   | Command                      |
+| ----------------------- | ---------------------------- |
+| Lint                    | `bun run lint`               |
+| Typecheck               | `bun run typecheck`          |
+| Conventions             | `bun run check-conventions`  |
 | Dependencies documented | `bun run check-dependencies` |
-| Agent docs | `bun run check-agents` |
-| All gates | `bun run gauntlet` |
-| Production build | `bun run build` |
+| Agent docs              | `bun run check-agents`       |
+| All gates               | `bun run gauntlet`           |
+| Production build        | `bun run build`              |
 
 A change is verified by running the affected page or API against the dev server plus the
 gates above. State which command or scenario proved the change; do not claim a check that

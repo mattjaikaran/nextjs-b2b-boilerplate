@@ -47,16 +47,14 @@ export function Footer({ className }: FooterProps) {
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="gap-y-8 xl:col-span-1">
             <div>
-              <span className="text-2xl font-bold text-primary">
-                Next.js Starter
-              </span>
+              <span className="text-2xl font-bold text-primary">Next.js Starter</span>
               <p className="mt-2 text-sm text-muted-foreground">
-                A modern, scalable Next.js application boilerplate built with
-                App Router, TypeScript, and the latest tools.
+                A modern, scalable Next.js application boilerplate built with App Router,
+                TypeScript, and the latest tools.
               </p>
             </div>
             <div className="flex gap-x-6">
-              {navigation.social.map(item => (
+              {navigation.social.map((item) => (
                 <a
                   key={item.name}
                   href={item.href}
@@ -78,7 +76,7 @@ export function Footer({ className }: FooterProps) {
                   Navigation
                 </h3>
                 <ul className="mt-4 gap-y-4">
-                  {navigation.main.map(item => (
+                  {navigation.main.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}
@@ -95,7 +93,7 @@ export function Footer({ className }: FooterProps) {
                   Legal
                 </h3>
                 <ul className="mt-4 gap-y-4">
-                  {navigation.legal.map(item => (
+                  {navigation.legal.map((item) => (
                     <li key={item.name}>
                       <Link
                         href={item.href}
@@ -130,9 +128,7 @@ export function Footer({ className }: FooterProps) {
             <p className="text-sm text-muted-foreground">
               &copy; {currentYear} Next.js Starter. All rights reserved.
             </p>
-            <p className="mt-2 text-sm text-muted-foreground md:mt-0">
-              Made by Matt Jaikaran
-            </p>
+            <p className="mt-2 text-sm text-muted-foreground md:mt-0">Made by Matt Jaikaran</p>
           </div>
         </div>
       </div>

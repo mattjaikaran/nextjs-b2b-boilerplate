@@ -20,9 +20,7 @@ export function CreateTodoContent() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Create Todo</h1>
-            <p className="text-muted-foreground">
-              Add a new task to your todo list
-            </p>
+            <p className="text-muted-foreground">Add a new task to your todo list</p>
           </div>
         </div>
 

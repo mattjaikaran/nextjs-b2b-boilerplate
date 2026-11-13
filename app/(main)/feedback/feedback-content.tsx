@@ -1,12 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
@@ -58,20 +53,16 @@ export function FeedbackContent() {
         </div>
 
         <div className="grid gap-6 md:grid-cols-3">
-          {feedbackTypes.map(type => (
+          {feedbackTypes.map((type) => (
             <Card key={type.value} className="text-center">
               <CardContent className="pt-6">
                 <type.icon className={`mx-auto mb-3 size-8 ${type.color}`} />
                 <h3 className="font-semibold">{type.label}</h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  {type.value === 'bug' &&
-                    "Report issues or bugs you've encountered"}
-                  {type.value === 'feature' &&
-                    'Suggest new features or functionality'}
-                  {type.value === 'improvement' &&
-                    'Ideas to make existing features better'}
-                  {type.value === 'general' &&
-                    'Share your overall experience and thoughts'}
+                  {type.value === 'bug' && "Report issues or bugs you've encountered"}
+                  {type.value === 'feature' && 'Suggest new features or functionality'}
+                  {type.value === 'improvement' && 'Ideas to make existing features better'}
+                  {type.value === 'general' && 'Share your overall experience and thoughts'}
                 </p>
               </CardContent>
             </Card>
@@ -102,7 +93,7 @@ export function FeedbackContent() {
                     <SelectValue placeholder="Select feedback type" />
                   </SelectTrigger>
                   <SelectContent>
-                    {feedbackTypes.map(type => (
+                    {feedbackTypes.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         <div className="flex items-center gap-x-2">
                           <type.icon className={`size-4 ${type.color}`} />
@@ -116,10 +107,7 @@ export function FeedbackContent() {
 
               <div className="gap-y-2">
                 <Label htmlFor="title">Title</Label>
-                <Input
-                  id="title"
-                  placeholder="Brief summary of your feedback"
-                />
+                <Input id="title" placeholder="Brief summary of your feedback" />
               </div>
 
               <div className="gap-y-2">
@@ -139,13 +127,9 @@ export function FeedbackContent() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="low">Low - Nice to have</SelectItem>
-                    <SelectItem value="medium">
-                      Medium - Would be helpful
-                    </SelectItem>
+                    <SelectItem value="medium">Medium - Would be helpful</SelectItem>
                     <SelectItem value="high">High - Important issue</SelectItem>
-                    <SelectItem value="critical">
-                      Critical - Blocking issue
-                    </SelectItem>
+                    <SelectItem value="critical">Critical - Blocking issue</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -173,8 +157,7 @@ export function FeedbackContent() {
                 <div className="flex-1">
                   <p className="font-medium">Add dark mode toggle to navbar</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    It would be great to have a quick way to switch between
-                    light and dark modes.
+                    It would be great to have a quick way to switch between light and dark modes.
                   </p>
                   <p className="mt-2 text-xs text-muted-foreground">
                     Feature Request &bull; 2 days ago &bull; &#x2705; Implemented
@@ -185,12 +168,9 @@ export function FeedbackContent() {
               <div className="flex items-start gap-x-3 rounded-lg bg-muted/50 p-4">
                 <Bug className="mt-0.5 size-5 text-red-500" />
                 <div className="flex-1">
-                  <p className="font-medium">
-                    Form validation not working on mobile
-                  </p>
+                  <p className="font-medium">Form validation not working on mobile</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    The form validation messages don&apos;t appear properly on
-                    mobile devices.
+                    The form validation messages don&apos;t appear properly on mobile devices.
                   </p>
                   <p className="mt-2 text-xs text-muted-foreground">
                     Bug Report &bull; 1 week ago &bull; &#x1F504; In Progress
@@ -203,8 +183,7 @@ export function FeedbackContent() {
                 <div className="flex-1">
                   <p className="font-medium">Improve loading states</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Add skeleton loaders and better loading indicators
-                    throughout the app.
+                    Add skeleton loaders and better loading indicators throughout the app.
                   </p>
                   <p className="mt-2 text-xs text-muted-foreground">
                     Improvement &bull; 1 week ago &bull; &#x1F4CB; Planned

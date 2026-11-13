@@ -8,7 +8,7 @@ import { useEffect } from 'react';
  * session in HttpOnly cookies, so there are no bearer tokens to read.
  */
 export function AuthBootstrap() {
-  const initializeAuth = useAuthStore(state => state.initializeAuth);
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
 
   useEffect(() => {
     initializeAuth();

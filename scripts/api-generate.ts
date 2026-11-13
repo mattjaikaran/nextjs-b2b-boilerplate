@@ -24,7 +24,7 @@ export function generateApi(output?: string): void {
       cwd: PROJECT_ROOT,
       env: output ? { ...process.env, OPENAPI_OUTPUT: output } : process.env,
       stdio: 'inherit',
-    }
+    },
   );
 
   if (result.status !== 0) {

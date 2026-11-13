@@ -21,9 +21,7 @@ export function TodosContent() {
   const { isAuthenticated, hasHydrated } = useAuth();
   const { data: todosResponse, isLoading } = useTodos();
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<
-    'all' | 'completed' | 'pending'
-  >('all');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'completed' | 'pending'>('all');
 
   if (!hasHydrated) {
     return null;
@@ -34,20 +32,18 @@ export function TodosContent() {
   }
 
   const todos = todosResponse?.data ?? (Array.isArray(todosResponse) ? todosResponse : []);
-  const filteredTodos = (Array.isArray(todos) ? todos : []).filter(
-    (todo: Todo) => {
-      const matchesSearch =
-        todo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (todo as { description?: string }).description
-          ?.toLowerCase()
-          .includes(searchTerm.toLowerCase());
-      const matchesStatus =
-        statusFilter === 'all' ||
-        (statusFilter === 'completed' && todo.completed) ||
-        (statusFilter === 'pending' && !todo.completed);
-      return matchesSearch && matchesStatus;
-    }
-  );
+  const filteredTodos = (Array.isArray(todos) ? todos : []).filter((todo: Todo) => {
+    const matchesSearch =
+      todo.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (todo as { description?: string }).description
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesStatus =
+      statusFilter === 'all' ||
+      (statusFilter === 'completed' && todo.completed) ||
+      (statusFilter === 'pending' && !todo.completed);
+    return matchesSearch && matchesStatus;
+  });
 
   return (
     <div className="page-container">
@@ -55,9 +51,7 @@ export function TodosContent() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Todos</h1>
-            <p className="text-muted-foreground">
-              Manage your tasks and stay organized
-            </p>
+            <p className="text-muted-foreground">Manage your tasks and stay organized</p>
           </div>
           <Button asChild>
             <Link href="/todos/create">
@@ -75,16 +69,14 @@ export function TodosContent() {
                 <Input
                   placeholder="Search todos..."
                   value={searchTerm}
-                  onChange={e => setSearchTerm(e.target.value)}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-10"
                 />
               </div>
             </div>
             <Select
               value={statusFilter}
-              onValueChange={(value: 'all' | 'completed' | 'pending') =>
-                setStatusFilter(value)
-              }
+              onValueChange={(value: 'all' | 'completed' | 'pending') => setStatusFilter(value)}
             >
               <SelectTrigger className="w-[120px]">
                 <SelectValue placeholder="Status" />

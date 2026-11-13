@@ -13,12 +13,7 @@ import {
   authSignup,
   userUpdateUser,
 } from '@/api/generated/sdk.gen';
-import {
-  toAuthResponse,
-  toSignupBody,
-  toUser,
-  toUserUpdateBody,
-} from '@/lib/api-mappers';
+import { toAuthResponse, toSignupBody, toUser, toUserUpdateBody } from '@/lib/api-mappers';
 import { api } from '@/lib/api';
 import { useAuth, useUI } from '@/lib/store';
 import type {
@@ -29,31 +24,24 @@ import type {
   RegisterCredentials,
   User,
 } from '@/types';
-import {
-  useMutation,
-  UseMutationOptions,
-  useQueryClient,
-} from '@tanstack/react-query';
+import { useMutation, UseMutationOptions, useQueryClient } from '@tanstack/react-query';
 
 /**
  * Hook for user login
  */
 export const useLogin = (
-  options?: Omit<
-    UseMutationOptions<AuthResponse, Error, LoginCredentials>,
-    'mutationFn'
-  >
+  options?: Omit<UseMutationOptions<AuthResponse, Error, LoginCredentials>, 'mutationFn'>,
 ) => {
   const { login } = useAuth();
   const { addNotification } = useUI();
   const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, LoginCredentials>({
-    mutationFn: async credentials => {
+    mutationFn: async (credentials) => {
       const response = await authLogin({ body: credentials, throwOnError: true });
       return toAuthResponse(response.data);
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       login(data);
       queryClient.invalidateQueries({
         queryKey: authGetCurrentUserQueryKey(),
@@ -64,7 +52,7 @@ export const useLogin = (
         message: 'You have been successfully logged in.',
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Login failed',
@@ -79,24 +67,21 @@ export const useLogin = (
  * Hook for user registration
  */
 export const useRegister = (
-  options?: Omit<
-    UseMutationOptions<AuthResponse, Error, RegisterCredentials>,
-    'mutationFn'
-  >
+  options?: Omit<UseMutationOptions<AuthResponse, Error, RegisterCredentials>, 'mutationFn'>,
 ) => {
   const { register } = useAuth();
   const { addNotification } = useUI();
   const queryClient = useQueryClient();
 
   return useMutation<AuthResponse, Error, RegisterCredentials>({
-    mutationFn: async credentials => {
+    mutationFn: async (credentials) => {
       const response = await authSignup({
         body: toSignupBody(credentials),
         throwOnError: true,
       });
       return toAuthResponse(response.data);
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       register(data);
       queryClient.invalidateQueries({
         queryKey: authGetCurrentUserQueryKey(),
@@ -107,7 +92,7 @@ export const useRegister = (
         message: 'Your account has been successfully created.',
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Registration failed',
@@ -122,15 +107,12 @@ export const useRegister = (
  * Hook for sending magic link
  */
 export const useMagicLink = (
-  options?: Omit<
-    UseMutationOptions<{ message: string }, Error, MagicLinkRequest>,
-    'mutationFn'
-  >
+  options?: Omit<UseMutationOptions<{ message: string }, Error, MagicLinkRequest>, 'mutationFn'>,
 ) => {
   const { addNotification } = useUI();
 
   return useMutation<{ message: string }, Error, MagicLinkRequest>({
-    mutationFn: async request => {
+    mutationFn: async (request) => {
       await authRequestPasswordlessLogin({
         body: { email: request.email },
         throwOnError: true,
@@ -144,7 +126,7 @@ export const useMagicLink = (
         message: 'Check your email for the login link.',
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Failed to send magic link',
@@ -159,10 +141,7 @@ export const useMagicLink = (
  * Hook for user logout
  */
 export const useLogout = (
-  options?: Omit<
-    UseMutationOptions<{ message: string }, Error, void>,
-    'mutationFn'
-  >
+  options?: Omit<UseMutationOptions<{ message: string }, Error, void>, 'mutationFn'>,
 ) => {
   const { logout } = useAuth();
   const { addNotification } = useUI();
@@ -200,14 +179,14 @@ export const useLogout = (
  * Hook for updating user profile
  */
 export const useUpdateProfile = (
-  options?: Omit<UseMutationOptions<User, Error, Partial<User>>, 'mutationFn'>
+  options?: Omit<UseMutationOptions<User, Error, Partial<User>>, 'mutationFn'>,
 ) => {
   const { user, setUser } = useAuth();
   const { addNotification } = useUI();
   const queryClient = useQueryClient();
 
   return useMutation<User, Error, Partial<User>>({
-    mutationFn: async updates => {
+    mutationFn: async (updates) => {
       if (!user) {
         throw new Error('You must be signed in to update your profile.');
       }
@@ -218,7 +197,7 @@ export const useUpdateProfile = (
       });
       return toUser(response.data);
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       setUser(data);
       queryClient.invalidateQueries({
         queryKey: authGetCurrentUserQueryKey(),
@@ -229,7 +208,7 @@ export const useUpdateProfile = (
         message: 'Your profile has been updated successfully.',
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Update failed',
@@ -254,20 +233,17 @@ export const useChangePassword = (
       { currentPassword: string; newPassword: string }
     >,
     'mutationFn'
-  >
+  >,
 ) => {
   const { addNotification } = useUI();
   const queryClient = useQueryClient();
 
-  return useMutation<
-    { message: string },
-    Error,
-    { currentPassword: string; newPassword: string }
-  >({
+  return useMutation<{ message: string }, Error, { currentPassword: string; newPassword: string }>({
     mutationFn: async ({ currentPassword, newPassword }) => {
-      const response = await api.post<
-        { message: string } | ApiResponse<{ message: string }>
-      >('/api/auth/change-password', { currentPassword, newPassword });
+      const response = await api.post<{ message: string } | ApiResponse<{ message: string }>>(
+        '/api/auth/change-password',
+        { currentPassword, newPassword },
+      );
       const payload = response.data;
       return 'success' in payload ? payload.data : payload;
     },
@@ -281,7 +257,7 @@ export const useChangePassword = (
         message: 'Your password has been changed successfully.',
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Password change failed',

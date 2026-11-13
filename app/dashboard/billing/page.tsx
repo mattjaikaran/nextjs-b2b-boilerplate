@@ -2,13 +2,7 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -38,9 +32,7 @@ export default function BillingPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Billing & Plans</h1>
-        <p className="text-muted-foreground">
-          Manage your subscription and payment methods.
-        </p>
+        <p className="text-muted-foreground">Manage your subscription and payment methods.</p>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -59,7 +51,7 @@ export default function BillingPage() {
               <Badge>Active</Badge>
             </div>
             <ul className="space-y-2 text-sm">
-              {planFeatures.map(feature => (
+              {planFeatures.map((feature) => (
                 <li key={feature} className="flex items-center gap-2">
                   <span className="size-1.5 rounded-full bg-primary" />
                   {feature}
@@ -80,9 +72,7 @@ export default function BillingPage() {
               <CreditCard className="size-5" />
               Payment Method
             </CardTitle>
-            <CardDescription>
-              Your default payment method for billing
-            </CardDescription>
+            <CardDescription>Your default payment method for billing</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex h-[120px] items-center justify-center rounded-lg border border-dashed bg-muted/30 text-muted-foreground">
@@ -110,7 +100,7 @@ export default function BillingPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {mockInvoices.map(invoice => (
+              {mockInvoices.map((invoice) => (
                 <TableRow key={invoice.id}>
                   <TableCell className="font-medium">{invoice.id}</TableCell>
                   <TableCell>{invoice.date}</TableCell>

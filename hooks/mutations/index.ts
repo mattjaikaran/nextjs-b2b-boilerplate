@@ -16,7 +16,4 @@ export {
 } from './use-auth-mutations';
 
 // Todo mutations
-export {
-  useCreateTodo,
-  useUpdateTodo,
-} from './use-todo-mutations';
+export { useCreateTodo, useUpdateTodo } from './use-todo-mutations';

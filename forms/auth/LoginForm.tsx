@@ -19,10 +19,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const loginSchema = z.object({
-  email: z
-    .string()
-    .min(1, 'Email is required')
-    .email('Please enter a valid email address'),
+  email: z.string().min(1, 'Email is required').email('Please enter a valid email address'),
   password: z
     .string()
     .min(1, 'Password is required')
@@ -35,11 +32,7 @@ interface LoginFormProps {
   onSwitchToMagicLink?: () => void;
 }
 
-export function LoginForm({
-  onSuccess,
-  onSwitchToRegister,
-  onSwitchToMagicLink,
-}: LoginFormProps) {
+export function LoginForm({ onSuccess, onSwitchToRegister, onSwitchToMagicLink }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false);
   const loginMutation = useLogin();
 
@@ -64,9 +57,7 @@ export function LoginForm({
     <Form {...form}>
       <div className="space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
-          </h1>
+          <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
           <p className="text-sm text-muted-foreground">
             Enter your credentials to sign in to your account
           </p>
@@ -113,11 +104,7 @@ export function LoginForm({
                       className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                       onClick={() => setShowPassword(!showPassword)}
                     >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
+                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                       <span className="sr-only">
                         {showPassword ? 'Hide password' : 'Show password'}
                       </span>
@@ -129,14 +116,8 @@ export function LoginForm({
             )}
           />
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={loginMutation.isPending}
-          >
-            {loginMutation.isPending && (
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-            )}
+          <Button type="submit" className="w-full" disabled={loginMutation.isPending}>
+            {loginMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Sign In
           </Button>
         </form>
@@ -147,9 +128,7 @@ export function LoginForm({
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 

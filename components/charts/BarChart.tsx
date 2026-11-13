@@ -40,7 +40,7 @@ export function BarChart({
   const { bars } = useMemo(() => {
     if (data.length === 0) return { bars: [], maxValue: 0 };
 
-    const max = Math.max(...data.map(d => d.value));
+    const max = Math.max(...data.map((d) => d.value));
 
     const barsData = data.map((d, i) => ({
       ...d,
@@ -53,10 +53,7 @@ export function BarChart({
 
   if (data.length === 0) {
     return (
-      <div
-        className={cn('flex items-center justify-center', className)}
-        style={{ height }}
-      >
+      <div className={cn('flex items-center justify-center', className)} style={{ height }}>
         <p className="text-sm text-muted-foreground">No data available</p>
       </div>
     );
@@ -68,20 +65,14 @@ export function BarChart({
         {bars.map((bar, i) => (
           <div key={bar.label} className="space-y-1">
             <div className="flex justify-between text-sm">
-              <span className="max-w-[60%] truncate text-muted-foreground">
-                {bar.label}
-              </span>
-              {showValues && (
-                <span className="font-medium">
-                  {bar.value.toLocaleString()}
-                </span>
-              )}
+              <span className="max-w-[60%] truncate text-muted-foreground">{bar.label}</span>
+              {showValues && <span className="font-medium">{bar.value.toLocaleString()}</span>}
             </div>
             <div className="h-3 overflow-hidden rounded-full bg-muted">
               <div
                 className={cn(
                   'h-full rounded-full transition-all duration-500',
-                  animate && 'animate-in slide-in-from-left'
+                  animate && 'animate-in slide-in-from-left',
                 )}
                 style={{
                   width: `${bar.percentage}%`,
@@ -101,22 +92,17 @@ export function BarChart({
       {/* Chart area */}
       <div className="flex flex-1 items-end" style={{ gap }}>
         {bars.map((bar, i) => (
-          <div
-            key={bar.label}
-            className="flex h-full flex-1 flex-col items-center justify-end"
-          >
+          <div key={bar.label} className="flex h-full flex-1 flex-col items-center justify-end">
             {/* Value label */}
             {showValues && (
-              <span className="mb-1 text-xs font-medium">
-                {bar.value.toLocaleString()}
-              </span>
+              <span className="mb-1 text-xs font-medium">{bar.value.toLocaleString()}</span>
             )}
 
             {/* Bar */}
             <div
               className={cn(
                 'w-full rounded-t-md transition-all duration-500',
-                animate && 'animate-in slide-in-from-bottom'
+                animate && 'animate-in slide-in-from-bottom',
               )}
               style={{
                 height: `${bar.percentage}%`,
@@ -132,7 +118,7 @@ export function BarChart({
       {/* Labels */}
       {showLabels && (
         <div className="mt-2 flex" style={{ gap }}>
-          {bars.map((bar, i) => (
+          {bars.map((bar, _i) => (
             <span
               key={bar.label}
               className="flex-1 truncate text-center text-xs text-muted-foreground"

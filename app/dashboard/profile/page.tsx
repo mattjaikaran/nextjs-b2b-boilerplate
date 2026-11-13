@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTodoStats } from '@/hooks';
 import { useAuth } from '@/lib/store';
 import { Calendar, Edit, Mail, MapPin, Settings } from 'lucide-react';
@@ -18,9 +12,7 @@ export default function ProfilePage() {
   const { data: stats } = useTodoStats();
 
   const userDisplayName =
-    user?.firstName && user?.lastName
-      ? `${user.firstName} ${user.lastName}`
-      : 'User';
+    user?.firstName && user?.lastName ? `${user.firstName} ${user.lastName}` : 'User';
 
   return (
     <div className="space-y-6">
@@ -28,9 +20,7 @@ export default function ProfilePage() {
         <CardContent className="pt-6">
           <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center">
             <div className="flex size-24 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary/50 text-3xl font-bold text-primary-foreground">
-              {user?.firstName?.[0] ||
-                user?.email?.[0]?.toUpperCase() ||
-                'U'}
+              {user?.firstName?.[0] || user?.email?.[0]?.toUpperCase() || 'U'}
             </div>
 
             <div className="flex-1">
@@ -82,9 +72,7 @@ export default function ProfilePage() {
             <CardDescription>Completed</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-emerald-500">
-              {stats?.completed ?? 0}
-            </div>
+            <div className="text-3xl font-bold text-emerald-500">{stats?.completed ?? 0}</div>
           </CardContent>
         </Card>
         <Card>
@@ -92,9 +80,7 @@ export default function ProfilePage() {
             <CardDescription>Pending</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-amber-500">
-              {stats?.pending ?? 0}
-            </div>
+            <div className="text-3xl font-bold text-amber-500">{stats?.pending ?? 0}</div>
           </CardContent>
         </Card>
         <Card>
@@ -104,7 +90,9 @@ export default function ProfilePage() {
           <CardContent>
             <div className="text-3xl font-bold">
               {stats?.total
-                ? Math.round(((stats as { completed?: number }).completed ?? 0) / stats.total * 100)
+                ? Math.round(
+                    (((stats as { completed?: number }).completed ?? 0) / stats.total) * 100,
+                  )
                 : 0}
               %
             </div>
@@ -134,14 +122,10 @@ export default function ProfilePage() {
                   <p className="text-sm">
                     <span className="font-medium">{activity.action}</span>
                     {' · '}
-                    <span className="text-muted-foreground">
-                      {activity.item}
-                    </span>
+                    <span className="text-muted-foreground">{activity.item}</span>
                   </p>
                 </div>
-                <span className="text-xs text-muted-foreground">
-                  {activity.time}
-                </span>
+                <span className="text-xs text-muted-foreground">{activity.time}</span>
               </div>
             ))}
           </div>

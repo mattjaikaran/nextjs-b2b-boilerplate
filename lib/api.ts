@@ -2,12 +2,7 @@ import { config, isDjangoSPA } from '@/config';
 import { getCSRFToken } from '@/lib/django-integration';
 import { useAuthStore } from '@/lib/store/slices/authSlice';
 import type { ApiError, ApiResponse } from '@/types';
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosResponse,
-  InternalAxiosRequestConfig,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 interface ExtendedAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -34,9 +29,7 @@ const createApiInstance = (): AxiosInstance => {
   instance.interceptors.request.use(
     (requestConfig: InternalAxiosRequestConfig) => {
       const token =
-        typeof window === 'undefined'
-          ? null
-          : localStorage.getItem(config.auth.tokenKey);
+        typeof window === 'undefined' ? null : localStorage.getItem(config.auth.tokenKey);
       if (token) {
         requestConfig.headers.Authorization = `Bearer ${token}`;
       }
@@ -52,7 +45,7 @@ const createApiInstance = (): AxiosInstance => {
     },
     (error: AxiosError) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   instance.interceptors.response.use(
@@ -60,17 +53,11 @@ const createApiInstance = (): AxiosInstance => {
       return response;
     },
     async (error: AxiosError<DjangoErrorResponse>) => {
-      const originalRequest = error.config as
-        | ExtendedAxiosRequestConfig
-        | undefined;
+      const originalRequest = error.config as ExtendedAxiosRequestConfig | undefined;
 
       const refreshToken =
-        typeof window === 'undefined'
-          ? null
-          : localStorage.getItem(config.auth.refreshTokenKey);
-      const canRefresh = isDjangoSPA()
-        ? !!refreshToken
-        : useAuthStore.getState().isAuthenticated;
+        typeof window === 'undefined' ? null : localStorage.getItem(config.auth.refreshTokenKey);
+      const canRefresh = isDjangoSPA() ? !!refreshToken : useAuthStore.getState().isAuthenticated;
 
       if (
         error.response?.status === 401 &&
@@ -90,10 +77,7 @@ const createApiInstance = (): AxiosInstance => {
             let newToken: string;
             if ('access' in response.data) {
               newToken = response.data.access;
-            } else if (
-              'data' in response.data &&
-              response.data.data?.accessToken
-            ) {
+            } else if ('data' in response.data && response.data.data?.accessToken) {
               newToken = response.data.data.accessToken;
             } else {
               throw new Error('Invalid refresh response');
@@ -104,11 +88,9 @@ const createApiInstance = (): AxiosInstance => {
           } else {
             // The paired backend rotates the HttpOnly refresh cookie. The
             // request body is empty; the cookie carries the credential.
-            await instance.post(
-              '/api/auth/refresh',
-              undefined,
-              { _retry: true } as ExtendedAxiosRequestConfig
-            );
+            await instance.post('/api/auth/refresh', undefined, {
+              _retry: true,
+            } as ExtendedAxiosRequestConfig);
           }
 
           return instance(originalRequest);
@@ -130,7 +112,7 @@ const createApiInstance = (): AxiosInstance => {
         if (typeof responseData.detail === 'string') {
           errorMessage = responseData.detail;
         } else if (Array.isArray(responseData.detail)) {
-          errorMessage = responseData.detail.map(d => d.msg).join(', ');
+          errorMessage = responseData.detail.map((d) => d.msg).join(', ');
         } else if (responseData.message) {
           errorMessage = responseData.message;
         }
@@ -145,7 +127,7 @@ const createApiInstance = (): AxiosInstance => {
       };
 
       return Promise.reject(apiError);
-    }
+    },
   );
 
   return instance;

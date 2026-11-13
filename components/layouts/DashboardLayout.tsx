@@ -96,16 +96,14 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       <aside
         className={cn(
           'fixed inset-y-0 left-0 z-50 w-64 transform border-r bg-card transition-transform duration-200 ease-in-out lg:translate-x-0',
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full',
         )}
       >
         {/* Sidebar header */}
         <div className="flex h-16 items-center justify-between border-b px-4">
           <Link href="/" className="flex items-center gap-2">
             <div className="flex size-8 items-center justify-center rounded-lg bg-primary">
-              <span className="text-lg font-bold text-primary-foreground">
-                N
-              </span>
+              <span className="text-lg font-bold text-primary-foreground">N</span>
             </div>
             <span className="font-semibold">Next.js Starter</span>
           </Link>
@@ -126,13 +124,13 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
         {/* Navigation */}
         <nav className="space-y-6 p-4">
-          {navGroups.map(group => (
+          {navGroups.map((group) => (
             <div key={group.label}>
               <p className="mb-2 px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
               <div className="space-y-1">
-                {group.items.map(item => {
+                {group.items.map((item) => {
                   const isActive = pathname === item.href;
                   return (
                     <Link
@@ -142,7 +140,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                         'flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors',
                         isActive
                           ? 'bg-primary text-primary-foreground'
-                          : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                          : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                       )}
                       onClick={() => setSidebarOpen(false)}
                     >

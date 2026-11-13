@@ -1,0 +1,30 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "nextjs", "import", "jsx-a11y"],
+  "categories": { "correctness": "error" },
+  "rules": {
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "typescript/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "typescript/no-explicit-any": "error",
+    "prefer-const": "error",
+    "react/refs": "off",
+    "react/purity": "off",
+    "react/incompatible-library": "off",
+    "react/set-state-in-effect": "off",
+    "unicorn/no-empty-file": "off"
+  },
+  "env": { "browser": true, "node": true },
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "out",
+    "build",
+    "next-env.d.ts",
+    "src/api/generated/**",
+    "bun.lock"
+  ]
+}

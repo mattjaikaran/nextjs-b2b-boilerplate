@@ -39,10 +39,9 @@ export function AreaChart({
   animate = true,
 }: AreaChartProps) {
   const { path, areaPath, points, maxValue, minValue } = useMemo(() => {
-    if (data.length === 0)
-      return { path: '', areaPath: '', points: [], maxValue: 0, minValue: 0 };
+    if (data.length === 0) return { path: '', areaPath: '', points: [], maxValue: 0, minValue: 0 };
 
-    const values = data.map(d => d.value);
+    const values = data.map((d) => d.value);
     const max = Math.max(...values);
     const min = Math.min(...values);
     const range = max - min || 1;
@@ -54,17 +53,12 @@ export function AreaChart({
 
     const pts = data.map((d, i) => ({
       x: padding + i * stepX,
-      y:
-        chartHeight -
-        padding -
-        ((d.value - min) / range) * (chartHeight - padding * 2),
+      y: chartHeight - padding - ((d.value - min) / range) * (chartHeight - padding * 2),
       label: d.label,
       value: d.value,
     }));
 
-    const linePath = pts
-      .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
-      .join(' ');
+    const linePath = pts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
 
     const area = `${linePath} L ${pts[pts.length - 1]?.x || padding} ${chartHeight - padding} L ${padding} ${chartHeight - padding} Z`;
 
@@ -82,10 +76,7 @@ export function AreaChart({
 
   if (data.length === 0) {
     return (
-      <div
-        className={cn('flex items-center justify-center', className)}
-        style={{ height }}
-      >
+      <div className={cn('flex items-center justify-center', className)} style={{ height }}>
         <p className="text-sm text-muted-foreground">No data available</p>
       </div>
     );
@@ -109,7 +100,7 @@ export function AreaChart({
         {/* Grid lines */}
         {showGrid && (
           <g className="text-muted-foreground/20">
-            {[0, 25, 50, 75, 100].map(y => (
+            {[0, 25, 50, 75, 100].map((y) => (
               <line
                 key={y}
                 x1="40"
@@ -153,7 +144,7 @@ export function AreaChart({
             fill={color}
             className={cn(
               'transition-transform hover:scale-150',
-              animate && 'duration-300 animate-in zoom-in'
+              animate && 'duration-300 animate-in zoom-in',
             )}
             style={{ animationDelay: `${i * 50}ms` }}
           />

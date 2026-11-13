@@ -2,19 +2,8 @@
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  AlertCircle,
-  CheckCircle2,
-  Info,
-  XCircle,
-} from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { AlertCircle, CheckCircle2, Info, XCircle } from 'lucide-react';
 import { useState } from 'react';
 
 type NotificationType = 'info' | 'success' | 'warning' | 'error';
@@ -71,10 +60,7 @@ const mockNotifications: Notification[] = [
   },
 ];
 
-const typeConfig: Record<
-  NotificationType,
-  { icon: React.ElementType; label: string }
-> = {
+const typeConfig: Record<NotificationType, { icon: React.ElementType; label: string }> = {
   info: { icon: Info, label: 'Info' },
   success: { icon: CheckCircle2, label: 'Success' },
   warning: { icon: AlertCircle, label: 'Warning' },
@@ -86,32 +72,22 @@ export default function NotificationsPage() {
   const [typeFilter, setTypeFilter] = useState<NotificationType | 'all'>('all');
 
   const markAllAsRead = () => {
-    setNotifications(prev =>
-      prev.map(n => ({ ...n, read: true }))
-    );
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
   };
 
   const filteredNotifications =
-    typeFilter === 'all'
-      ? notifications
-      : notifications.filter(n => n.type === typeFilter);
+    typeFilter === 'all' ? notifications : notifications.filter((n) => n.type === typeFilter);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Notifications</h1>
-          <p className="text-muted-foreground">
-            Manage and view your notifications.
-          </p>
+          <p className="text-muted-foreground">Manage and view your notifications.</p>
         </div>
-        <Button
-          variant="outline"
-          onClick={markAllAsRead}
-          disabled={unreadCount === 0}
-        >
+        <Button variant="outline" onClick={markAllAsRead} disabled={unreadCount === 0}>
           Mark all as read
         </Button>
       </div>
@@ -119,9 +95,7 @@ export default function NotificationsPage() {
       <Card>
         <CardHeader>
           <CardTitle>All Notifications</CardTitle>
-          <CardDescription>
-            Filter by type or mark all as read
-          </CardDescription>
+          <CardDescription>Filter by type or mark all as read</CardDescription>
           <div className="flex flex-wrap gap-2 pt-2">
             <Button
               variant={typeFilter === 'all' ? 'default' : 'outline'}
@@ -130,7 +104,7 @@ export default function NotificationsPage() {
             >
               All
             </Button>
-            {(Object.keys(typeConfig) as NotificationType[]).map(type => (
+            {(Object.keys(typeConfig) as NotificationType[]).map((type) => (
               <Button
                 key={type}
                 variant={typeFilter === type ? 'default' : 'outline'}
@@ -144,7 +118,7 @@ export default function NotificationsPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {filteredNotifications.map(notification => {
+            {filteredNotifications.map((notification) => {
               const config = typeConfig[notification.type];
               const Icon = config.icon;
               return (
@@ -166,12 +140,8 @@ export default function NotificationsPage() {
                         </Badge>
                       )}
                     </div>
-                    <p className="text-sm text-muted-foreground">
-                      {notification.message}
-                    </p>
-                    <p className="mt-1 text-xs text-muted-foreground">
-                      {notification.timestamp}
-                    </p>
+                    <p className="text-sm text-muted-foreground">{notification.message}</p>
+                    <p className="mt-1 text-xs text-muted-foreground">{notification.timestamp}</p>
                   </div>
                 </div>
               );

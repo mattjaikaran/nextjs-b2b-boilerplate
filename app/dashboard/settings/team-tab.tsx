@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Plus, UserPlus } from 'lucide-react';
 
@@ -25,9 +19,7 @@ export function TeamTab() {
             <UserPlus className="size-5" />
             Invite Members
           </CardTitle>
-          <CardDescription>
-            Invite team members to your organization.
-          </CardDescription>
+          <CardDescription>Invite team members to your organization.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="flex gap-2">
@@ -46,7 +38,7 @@ export function TeamTab() {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {teamMembers.map(member => (
+            {teamMembers.map((member) => (
               <div
                 key={member.email}
                 className="flex items-center justify-between rounded-lg border p-3"

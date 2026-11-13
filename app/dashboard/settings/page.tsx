@@ -3,26 +3,14 @@
 import { useChangePassword, useUpdateProfile } from '@/hooks';
 import { useAuth } from '@/lib/store';
 import { cn } from '@/lib/utils';
-import {
-  Bell,
-  CreditCard,
-  Key,
-  Shield,
-  User,
-  Users,
-} from 'lucide-react';
+import { Bell, CreditCard, Key, Shield, User, Users } from 'lucide-react';
 import { useState } from 'react';
 import { AccountTab } from './account-tab';
 import { ApiKeysTab } from './api-keys-tab';
 import { BillingTab } from './billing-tab';
 import { NotificationsTab } from './notifications-tab';
 import { PrivacyTab } from './privacy-tab';
-import type {
-  NotificationsState,
-  PasswordForm,
-  ProfileForm,
-  SettingsTab,
-} from './settings-types';
+import type { NotificationsState, PasswordForm, ProfileForm, SettingsTab } from './settings-types';
 import { TeamTab } from './team-tab';
 
 const tabs: { id: SettingsTab; label: string; icon: React.ElementType }[] = [
@@ -80,15 +68,13 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
-        <p className="text-muted-foreground">
-          Manage your account settings and preferences.
-        </p>
+        <p className="text-muted-foreground">Manage your account settings and preferences.</p>
       </div>
 
       <div className="flex flex-col gap-6 lg:flex-row">
         <nav className="shrink-0 lg:w-64">
           <div className="space-y-1 lg:sticky lg:top-24">
-            {tabs.map(tab => (
+            {tabs.map((tab) => (
               <button
                 key={tab.id}
                 type="button"
@@ -97,7 +83,7 @@ export default function SettingsPage() {
                   'flex w-full items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium transition-colors',
                   activeTab === tab.id
                     ? 'bg-primary text-primary-foreground'
-                    : 'text-muted-foreground hover:bg-muted hover:text-foreground'
+                    : 'text-muted-foreground hover:bg-muted hover:text-foreground',
                 )}
               >
                 <tab.icon className="size-5" />

@@ -11,15 +11,13 @@ export default function PrivacyPage() {
     <div className="container mx-auto max-w-4xl px-4 py-12">
       <div className="prose prose-gray dark:prose-invert max-w-none">
         <h1 className="text-3xl font-bold tracking-tight">Privacy Policy</h1>
-        <p className="text-lg text-muted-foreground">
-          Last updated: {lastUpdated}
-        </p>
+        <p className="text-lg text-muted-foreground">Last updated: {lastUpdated}</p>
 
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Information We Collect</h2>
           <p>
-            We collect information you provide directly to us, such as when you
-            create an account, use our services, or contact us for support.
+            We collect information you provide directly to us, such as when you create an account,
+            use our services, or contact us for support.
           </p>
           <ul>
             <li>Account information (name, email address)</li>
@@ -30,9 +28,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="mt-8">
-          <h2 className="text-2xl font-semibold">
-            How We Use Your Information
-          </h2>
+          <h2 className="text-2xl font-semibold">How We Use Your Information</h2>
           <p>We use the information we collect to:</p>
           <ul>
             <li>Provide, maintain, and improve our services</li>
@@ -46,9 +42,8 @@ export default function PrivacyPage() {
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Information Sharing</h2>
           <p>
-            We do not sell, trade, or otherwise transfer your personal
-            information to third parties without your consent, except as
-            described in this policy.
+            We do not sell, trade, or otherwise transfer your personal information to third parties
+            without your consent, except as described in this policy.
           </p>
           <p>We may share your information in the following situations:</p>
           <ul>
@@ -62,9 +57,8 @@ export default function PrivacyPage() {
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Data Security</h2>
           <p>
-            We implement appropriate technical and organizational measures to
-            protect your personal information against unauthorized access,
-            alteration, disclosure, or destruction.
+            We implement appropriate technical and organizational measures to protect your personal
+            information against unauthorized access, alteration, disclosure, or destruction.
           </p>
         </section>
 
@@ -83,27 +77,22 @@ export default function PrivacyPage() {
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Cookies and Tracking</h2>
           <p>
-            We use cookies and similar tracking technologies to collect and use
-            personal information about you. You can control cookies through your
-            browser settings.
+            We use cookies and similar tracking technologies to collect and use personal information
+            about you. You can control cookies through your browser settings.
           </p>
         </section>
 
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Changes to This Policy</h2>
           <p>
-            We may update this privacy policy from time to time. We will notify
-            you of any changes by posting the new policy on this page and
-            updating the &quot;Last updated&quot; date.
+            We may update this privacy policy from time to time. We will notify you of any changes
+            by posting the new policy on this page and updating the &quot;Last updated&quot; date.
           </p>
         </section>
 
         <section className="mt-8">
           <h2 className="text-2xl font-semibold">Contact Us</h2>
-          <p>
-            If you have any questions about this privacy policy, please contact
-            us at:
-          </p>
+          <p>If you have any questions about this privacy policy, please contact us at:</p>
           <ul>
             <li>Email: privacy@example.com</li>
             <li>Address: [Your Company Address]</li>

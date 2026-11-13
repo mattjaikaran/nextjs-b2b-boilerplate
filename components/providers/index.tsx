@@ -11,12 +11,7 @@ interface AppProvidersProps {
 
 export function AppProviders({ children }: AppProvidersProps) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <QueryProvider>
         <AuthBootstrap />
         {children}
@@ -25,4 +20,3 @@ export function AppProviders({ children }: AppProvidersProps) {
     </ThemeProvider>
   );
 }
-

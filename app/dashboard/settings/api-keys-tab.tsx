@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Copy, Key, Plus } from 'lucide-react';
 
 const apiKeys = [
@@ -23,13 +17,11 @@ export function ApiKeysTab() {
           <Key className="size-5" />
           API Keys
         </CardTitle>
-        <CardDescription>
-          Manage API keys for programmatic access
-        </CardDescription>
+        <CardDescription>Manage API keys for programmatic access</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          {apiKeys.map(apiKey => (
+          {apiKeys.map((apiKey) => (
             <div
               key={apiKey.name}
               className="flex items-center justify-between rounded-lg border p-3"

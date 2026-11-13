@@ -26,14 +26,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const todoSchema = z.object({
-  title: z
-    .string()
-    .min(1, 'Title is required')
-    .max(100, 'Title must be less than 100 characters'),
-  description: z
-    .string()
-    .max(500, 'Description must be less than 500 characters')
-    .optional(),
+  title: z.string().min(1, 'Title is required').max(100, 'Title must be less than 100 characters'),
+  description: z.string().max(500, 'Description must be less than 500 characters').optional(),
   priority: z.enum(['low', 'medium', 'high']),
 });
 
@@ -48,8 +42,7 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
   const updateTodoMutation = useUpdateTodo();
 
   const isEditing = !!todo;
-  const isLoading =
-    createTodoMutation.isPending || updateTodoMutation.isPending;
+  const isLoading = createTodoMutation.isPending || updateTodoMutation.isPending;
 
   const form = useForm<CreateTodoRequest>({
     resolver: zodResolver(todoSchema),
@@ -80,9 +73,7 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
     <Form {...form}>
       <div className="space-y-6">
         <div className="space-y-2">
-          <h2 className="text-lg font-semibold">
-            {isEditing ? 'Edit Todo' : 'Create New Todo'}
-          </h2>
+          <h2 className="text-lg font-semibold">{isEditing ? 'Edit Todo' : 'Create New Todo'}</h2>
           <p className="text-sm text-muted-foreground">
             {isEditing
               ? 'Update your todo details below.'
@@ -129,10 +120,7 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Priority</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder="Select priority" />
@@ -155,12 +143,7 @@ export function TodoForm({ todo, onSuccess, onCancel }: TodoFormProps) {
               {isEditing ? 'Update Todo' : 'Create Todo'}
             </Button>
             {onCancel && (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={onCancel}
-                disabled={isLoading}
-              >
+              <Button type="button" variant="outline" onClick={onCancel} disabled={isLoading}>
                 Cancel
               </Button>
             )}
