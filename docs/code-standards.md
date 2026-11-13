@@ -50,7 +50,8 @@ not resolve, or `CLAUDE.md` exists with anything other than `@AGENTS.md`.
 
 - Files: kebab-case (`org-switcher.tsx`, `use-todo-queries.ts`).
 - Components: PascalCase named exports; hooks start with `use`.
-- One domain per folder under `forms/`, `hooks/`, and `lib/api/services/`.
+- One domain per folder under `forms/`; hooks are grouped by role under `hooks/queries/`,
+  `hooks/mutations/`, and `hooks/api/`.
 - Import through the `@/*` alias; keep relative imports inside a single folder.
 
 ## Styling

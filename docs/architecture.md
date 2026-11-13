@@ -5,28 +5,28 @@ layering and data-flow conventions.
 
 ## Layers
 
-| Layer      | Location                                           | Role                                                                                                      |
-| ---------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| Routes     | `app/`                                             | App Router pages, layouts, route handlers. Server components unless interactivity requires a client leaf. |
-| Forms      | `forms/<domain>/`                                  | React Hook Form components with Zod resolvers.                                                            |
-| Components | `components/`                                      | Presentational and shared UI. `components/ui/` holds shadcn primitives.                                   |
-| Hooks      | `hooks/queries/`, `hooks/mutations/`, `hooks/api/` | TanStack Query bindings; the only place components read or write server state.                            |
-| Services   | `lib/api/services/`                                | One class per domain over the shared Axios instance; maps responses with `handleApiResponse`.             |
-| Client     | `lib/api.ts`                                       | The single Axios instance: base URL, timeout, JWT attach/refresh, Django CSRF header.                     |
-| State      | `lib/store/`                                       | Zustand slices for UI and auth state.                                                                     |
-| Config     | `config/index.ts`                                  | Typed environment configuration and `isDjangoSPA()`.                                                      |
-| Types      | `types/`                                           | Shared TypeScript types.                                                                                  |
+| Layer      | Location                                           | Role                                                                                                          |
+| ---------- | -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Routes     | `app/`                                             | App Router pages, layouts, route handlers. Server components unless interactivity requires a client leaf.     |
+| Forms      | `forms/<domain>/`                                  | React Hook Form components with Zod resolvers.                                                                |
+| Components | `components/`                                      | Presentational and shared UI. `components/ui/` holds shadcn primitives.                                       |
+| Hooks      | `hooks/queries/`, `hooks/mutations/`, `hooks/api/` | TanStack Query bindings; the only place components read or write server state.                                |
+| API        | `src/api/generated/`                               | OpenAPI-generated SDK and TanStack Query key helpers; `lib/api-mappers.ts` maps SDK payloads to domain types. |
+| Client     | `lib/api.ts`                                       | The single Axios instance: base URL, timeout, JWT attach/refresh, Django CSRF header.                         |
+| State      | `lib/store/`                                       | Zustand slices for UI and auth state.                                                                         |
+| Config     | `config/index.ts`                                  | Typed environment configuration and `isDjangoSPA()`.                                                          |
+| Types      | `types/`                                           | Shared TypeScript types.                                                                                      |
 
 ## Data flow
 
-`page or component → hook → service → lib/api.ts → backend`
+`page or component → hook → generated SDK → lib/api.ts → backend`
 
 - Components never call `fetch`, `axios`, or `api` directly; the convention gate rejects
   inline API calls outside `hooks/`, `lib/`, and `app/api/`.
 - TanStack Query owns server state. Do not copy query data into Zustand; Zustand is for
   client-only state such as UI toggles and the auth session.
-- Query keys come from `lib/api/utils/query-keys.ts` helpers so invalidation stays
-  consistent.
+- Query keys come from the generated `src/api/generated/@tanstack/react-query.gen.ts`
+  helpers (for example `todoListTodosQueryKey`) so invalidation stays consistent.
 
 ## Client and server boundaries
 
