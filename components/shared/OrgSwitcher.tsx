@@ -21,10 +21,7 @@ export function OrgSwitcher() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="w-full justify-between gap-2 px-3"
-        >
+        <Button variant="outline" className="w-full justify-between gap-2 px-3">
           <div className="flex items-center gap-2">
             <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary/10">
               <Building2 className="h-3.5 w-3.5 text-primary" />
@@ -35,7 +32,7 @@ export function OrgSwitcher() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-(--radix-dropdown-menu-trigger-width)">
-        {mockOrganizations.map(org => (
+        {mockOrganizations.map((org) => (
           <DropdownMenuItem key={org.id} className="cursor-pointer">
             <Building2 className="mr-2 h-4 w-4" />
             {org.name}

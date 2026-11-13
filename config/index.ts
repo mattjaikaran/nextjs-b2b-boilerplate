@@ -44,10 +44,7 @@ const isDjangoSPAMode = getEnvVar('NEXT_PUBLIC_MODE') === 'django-spa';
 
 export const config: AppConfig = {
   api: {
-    baseUrl: getEnvVar(
-      'NEXT_PUBLIC_API_BASE_URL',
-      isDjangoSPAMode ? '' : 'http://localhost:8000'
-    ),
+    baseUrl: getEnvVar('NEXT_PUBLIC_API_BASE_URL', isDjangoSPAMode ? '' : 'http://localhost:8000'),
     timeout: parseInt(getEnvVar('NEXT_PUBLIC_API_TIMEOUT', '10000')),
     retries: parseInt(getEnvVar('NEXT_PUBLIC_API_RETRIES', '3')),
     version: getEnvVar('NEXT_PUBLIC_API_VERSION', 'v1'),

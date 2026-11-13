@@ -5,17 +5,17 @@ layering and data-flow conventions.
 
 ## Layers
 
-| Layer | Location | Role |
-| --- | --- | --- |
-| Routes | `app/` | App Router pages, layouts, route handlers. Server components unless interactivity requires a client leaf. |
-| Forms | `forms/<domain>/` | React Hook Form components with Zod resolvers. |
-| Components | `components/` | Presentational and shared UI. `components/ui/` holds shadcn primitives. |
-| Hooks | `hooks/queries/`, `hooks/mutations/`, `hooks/api/` | TanStack Query bindings; the only place components read or write server state. |
-| Services | `lib/api/services/` | One class per domain over the shared Axios instance; maps responses with `handleApiResponse`. |
-| Client | `lib/api.ts` | The single Axios instance: base URL, timeout, JWT attach/refresh, Django CSRF header. |
-| State | `lib/store/` | Zustand slices for UI and auth state. |
-| Config | `config/index.ts` | Typed environment configuration and `isDjangoSPA()`. |
-| Types | `types/` | Shared TypeScript types. |
+| Layer      | Location                                           | Role                                                                                                      |
+| ---------- | -------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Routes     | `app/`                                             | App Router pages, layouts, route handlers. Server components unless interactivity requires a client leaf. |
+| Forms      | `forms/<domain>/`                                  | React Hook Form components with Zod resolvers.                                                            |
+| Components | `components/`                                      | Presentational and shared UI. `components/ui/` holds shadcn primitives.                                   |
+| Hooks      | `hooks/queries/`, `hooks/mutations/`, `hooks/api/` | TanStack Query bindings; the only place components read or write server state.                            |
+| Services   | `lib/api/services/`                                | One class per domain over the shared Axios instance; maps responses with `handleApiResponse`.             |
+| Client     | `lib/api.ts`                                       | The single Axios instance: base URL, timeout, JWT attach/refresh, Django CSRF header.                     |
+| State      | `lib/store/`                                       | Zustand slices for UI and auth state.                                                                     |
+| Config     | `config/index.ts`                                  | Typed environment configuration and `isDjangoSPA()`.                                                      |
+| Types      | `types/`                                           | Shared TypeScript types.                                                                                  |
 
 ## Data flow
 

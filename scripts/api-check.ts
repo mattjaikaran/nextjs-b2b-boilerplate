@@ -15,14 +15,14 @@ const COMMITTED_DIR = 'src/api/generated';
 async function files(root: string, directory = root): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
   const paths = await Promise.all(
-    entries.map(async entry => {
+    entries.map(async (entry) => {
       const path = join(directory, entry.name);
       if (entry.isDirectory()) return files(root, path);
       if (!entry.isFile()) {
         throw new Error(`Unexpected generated entry: ${path}`);
       }
       return [relative(root, path)];
-    })
+    }),
   );
   return paths.flat().sort();
 }
@@ -35,10 +35,7 @@ try {
   generateApi(fresh);
 
   const committed = join(PROJECT_ROOT, COMMITTED_DIR);
-  const [expected, actual] = await Promise.all([
-    files(fresh),
-    files(committed),
-  ]);
+  const [expected, actual] = await Promise.all([files(fresh), files(committed)]);
   const drift: string[] = [];
   const expectedSet = new Set(expected);
   const actualSet = new Set(actual);
@@ -59,9 +56,7 @@ try {
   }
 
   if (drift.length) {
-    throw new Error(
-      `Generated API drift. Run bun run api:generate.\n${drift.join('\n')}`
-    );
+    throw new Error(`Generated API drift. Run bun run api:generate.\n${drift.join('\n')}`);
   }
   console.log('Generated API matches the OpenAPI contract.');
 } finally {

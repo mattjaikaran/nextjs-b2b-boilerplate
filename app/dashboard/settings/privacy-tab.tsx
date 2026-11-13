@@ -1,13 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Key, Loader2, Shield } from 'lucide-react';
@@ -34,9 +28,7 @@ export function PrivacyTab({
             <Key className="size-5" />
             Change Password
           </CardTitle>
-          <CardDescription>
-            Update your password to keep your account secure.
-          </CardDescription>
+          <CardDescription>Update your password to keep your account secure.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={onPasswordSubmit} className="space-y-4">
@@ -46,7 +38,7 @@ export function PrivacyTab({
                 id="currentPassword"
                 type="password"
                 value={passwordForm.currentPassword}
-                onChange={e =>
+                onChange={(e) =>
                   onPasswordFormChange({
                     ...passwordForm,
                     currentPassword: e.target.value,
@@ -60,7 +52,7 @@ export function PrivacyTab({
                 id="newPassword"
                 type="password"
                 value={passwordForm.newPassword}
-                onChange={e =>
+                onChange={(e) =>
                   onPasswordFormChange({
                     ...passwordForm,
                     newPassword: e.target.value,
@@ -74,7 +66,7 @@ export function PrivacyTab({
                 id="confirmPassword"
                 type="password"
                 value={passwordForm.confirmPassword}
-                onChange={e =>
+                onChange={(e) =>
                   onPasswordFormChange({
                     ...passwordForm,
                     confirmPassword: e.target.value,
@@ -82,11 +74,7 @@ export function PrivacyTab({
                 }
               />
             </div>
-            <Button
-              type="submit"
-              disabled={isPasswordPending}
-              className="gap-2"
-            >
+            <Button type="submit" disabled={isPasswordPending} className="gap-2">
               {isPasswordPending ? (
                 <Loader2 className="size-4 animate-spin" />
               ) : (
@@ -104,17 +92,13 @@ export function PrivacyTab({
             <Shield className="size-5" />
             Two-Factor Authentication
           </CardTitle>
-          <CardDescription>
-            Add an extra layer of security to your account.
-          </CardDescription>
+          <CardDescription>Add an extra layer of security to your account.</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium">Status: Not enabled</p>
-              <p className="text-sm text-muted-foreground">
-                Protect your account with 2FA
-              </p>
+              <p className="text-sm text-muted-foreground">Protect your account with 2FA</p>
             </div>
             <Button variant="outline">Enable 2FA</Button>
           </div>

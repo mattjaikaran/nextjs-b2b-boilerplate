@@ -1,12 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -82,9 +77,7 @@ export function ContactContent() {
                   <Mail className="size-5 text-muted-foreground" />
                   <div>
                     <p className="font-medium">Email</p>
-                    <p className="text-sm text-muted-foreground">
-                      hello@example.com
-                    </p>
+                    <p className="text-sm text-muted-foreground">hello@example.com</p>
                   </div>
                 </div>
 
@@ -128,24 +121,22 @@ export function ContactContent() {
                 <div>
                   <p className="font-medium">How can I contribute?</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Check out our GitHub repository for contribution guidelines
-                    and open issues.
+                    Check out our GitHub repository for contribution guidelines and open issues.
                   </p>
                 </div>
 
                 <div>
                   <p className="font-medium">Is this free to use?</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Yes! This boilerplate is open source and free to use for any
-                    project.
+                    Yes! This boilerplate is open source and free to use for any project.
                   </p>
                 </div>
 
                 <div>
                   <p className="font-medium">Can I customize it?</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    Absolutely! The boilerplate is designed to be easily
-                    customizable and extensible.
+                    Absolutely! The boilerplate is designed to be easily customizable and
+                    extensible.
                   </p>
                 </div>
               </CardContent>

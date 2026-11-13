@@ -2,7 +2,6 @@
 
 import { config } from '@/config';
 import { useAuthStore } from './slices/authSlice';
-import { useConfigStore } from './slices/configSlice';
 import { useTodoStore } from './slices/todoSlice';
 import { useUIStore } from './slices/uiSlice';
 

@@ -98,9 +98,7 @@ export default function TeamPage() {
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Team Members</h1>
-          <p className="text-muted-foreground">
-            Manage your team and invite new members.
-          </p>
+          <p className="text-muted-foreground">Manage your team and invite new members.</p>
         </div>
         <Dialog open={inviteOpen} onOpenChange={setInviteOpen}>
           <DialogTrigger asChild>
@@ -113,14 +111,12 @@ export default function TeamPage() {
             <DialogHeader>
               <DialogTitle>Invite team member</DialogTitle>
               <DialogDescription>
-                Send an invitation to join your organization. They will receive
-                an email with a link to accept.
+                Send an invitation to join your organization. They will receive an email with a link
+                to accept.
               </DialogDescription>
             </DialogHeader>
             <div className="py-4">
-              <p className="text-sm text-muted-foreground">
-                Invite form placeholder
-              </p>
+              <p className="text-sm text-muted-foreground">Invite form placeholder</p>
             </div>
             <DialogFooter>
               <Button variant="outline" onClick={() => setInviteOpen(false)}>
@@ -145,29 +141,21 @@ export default function TeamPage() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {mockTeamMembers.map(member => (
+            {mockTeamMembers.map((member) => (
               <TableRow key={member.id}>
                 <TableCell className="font-medium">{member.name}</TableCell>
                 <TableCell>{member.email}</TableCell>
                 <TableCell>
-                  <Badge
-                    variant="secondary"
-                    className={roleBadgeClass[member.role]}
-                  >
+                  <Badge variant="secondary" className={roleBadgeClass[member.role]}>
                     {member.role}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <Badge
-                    variant="secondary"
-                    className={statusBadgeClass[member.status]}
-                  >
+                  <Badge variant="secondary" className={statusBadgeClass[member.status]}>
                     {member.status}
                   </Badge>
                 </TableCell>
-                <TableCell className="text-muted-foreground">
-                  {member.lastActive}
-                </TableCell>
+                <TableCell className="text-muted-foreground">{member.lastActive}</TableCell>
                 <TableCell>
                   <Button variant="ghost" size="icon" className="size-8">
                     <MoreHorizontal className="size-4" />

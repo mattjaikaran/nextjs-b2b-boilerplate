@@ -21,9 +21,7 @@ import type {
 const PRIORITIES: readonly TodoPriority[] = ['low', 'medium', 'high'];
 
 const toPriority = (priority: string): TodoPriority =>
-  PRIORITIES.includes(priority as TodoPriority)
-    ? (priority as TodoPriority)
-    : 'medium';
+  PRIORITIES.includes(priority as TodoPriority) ? (priority as TodoPriority) : 'medium';
 
 export const toTodo = (todo: TodoSchema): Todo => ({
   id: todo.id,
@@ -57,19 +55,13 @@ export const toTodoQuery = (params?: QueryParams) => ({
   page_size: params?.page_size,
   search: params?.search,
   ordering: params?.ordering,
-  completed:
-    typeof params?.filters?.completed === 'boolean'
-      ? params.filters.completed
-      : undefined,
-  priority:
-    typeof params?.filters?.priority === 'string'
-      ? params.filters.priority
-      : undefined,
+  completed: typeof params?.filters?.completed === 'boolean' ? params.filters.completed : undefined,
+  priority: typeof params?.filters?.priority === 'string' ? params.filters.priority : undefined,
 });
 
 export const toPaginatedTodos = (
   response: PaginatedResponseSchemaTodoSchema,
-  params?: QueryParams
+  params?: QueryParams,
 ): PaginatedResponse<Todo> => {
   const limit = params?.page_size ?? 50;
   return {
@@ -83,31 +75,23 @@ export const toPaginatedTodos = (
   };
 };
 
-export const toCreateTodoBody = (
-  todo: CreateTodoRequest
-): CreateTodoSchema => ({
+export const toCreateTodoBody = (todo: CreateTodoRequest): CreateTodoSchema => ({
   title: todo.title,
   description: todo.description ?? '',
   completed: false,
   priority: todo.priority,
 });
 
-export const toUpdateTodoBody = (
-  updates: UpdateTodoRequest
-): UpdateTodoSchema => ({
+export const toUpdateTodoBody = (updates: UpdateTodoRequest): UpdateTodoSchema => ({
   title: updates.title,
   description: updates.description,
   completed: updates.completed,
   priority: updates.priority,
 });
 
-export const toSignupBody = (
-  credentials: RegisterCredentials
-): UserSignupSchema => {
+export const toSignupBody = (credentials: RegisterCredentials): UserSignupSchema => {
   // Keep the domain so users with the same local part do not collide.
-  const username = credentials.email
-    .replace(/[^a-zA-Z0-9_]/g, '_')
-    .slice(0, 100);
+  const username = credentials.email.replace(/[^a-zA-Z0-9_]/g, '_').slice(0, 100);
   return {
     email: credentials.email,
     username: username.length >= 3 ? username : `user_${username}`.slice(0, 100),

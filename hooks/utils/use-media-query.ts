@@ -10,42 +10,39 @@ import { useSyncExternalStore } from 'react';
 /**
  * Hook to check if a media query matches
  */
-const useMediaQuery = (query: string): boolean =>
+export const useMediaQuery = (query: string): boolean =>
   useSyncExternalStore(
-    onChange => {
+    (onChange) => {
       const mediaQuery = window.matchMedia(query);
       mediaQuery.addEventListener('change', onChange);
       return () => mediaQuery.removeEventListener('change', onChange);
     },
     () => window.matchMedia(query).matches,
-    () => false
+    () => false,
   );
 
 /**
  * Predefined breakpoint hooks
  */
-const useIsMobile = () => useMediaQuery('(max-width: 639px)');
-const useIsTablet = () =>
-  useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
-const useIsDesktop = () => useMediaQuery('(min-width: 1024px)');
-const useIsLargeDesktop = () => useMediaQuery('(min-width: 1280px)');
+export const useIsMobile = () => useMediaQuery('(max-width: 639px)');
+export const useIsTablet = () => useMediaQuery('(min-width: 640px) and (max-width: 1023px)');
+export const useIsDesktop = () => useMediaQuery('(min-width: 1024px)');
+export const useIsLargeDesktop = () => useMediaQuery('(min-width: 1280px)');
 
 /**
  * Hook for preferred color scheme
  */
-const usePrefersDarkMode = () =>
-  useMediaQuery('(prefers-color-scheme: dark)');
+export const usePrefersDarkMode = () => useMediaQuery('(prefers-color-scheme: dark)');
 
 /**
  * Hook for reduced motion preference
  */
-const usePrefersReducedMotion = () =>
-  useMediaQuery('(prefers-reduced-motion: reduce)');
+export const usePrefersReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)');
 
 /**
  * Hook that returns current breakpoint
  */
-const useBreakpoint = (): 'mobile' | 'tablet' | 'desktop' | 'large' => {
+export const useBreakpoint = (): 'mobile' | 'tablet' | 'desktop' | 'large' => {
   const isMobile = useIsMobile();
   const isTablet = useIsTablet();
   const isLargeDesktop = useIsLargeDesktop();

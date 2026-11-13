@@ -41,16 +41,8 @@ export function StatCard({
 
     return {
       icon: isNeutral ? Minus : isPositive ? TrendingUp : TrendingDown,
-      color: isNeutral
-        ? 'text-muted-foreground'
-        : isGood
-          ? 'text-emerald-500'
-          : 'text-rose-500',
-      bgColor: isNeutral
-        ? 'bg-muted'
-        : isGood
-          ? 'bg-emerald-500/10'
-          : 'bg-rose-500/10',
+      color: isNeutral ? 'text-muted-foreground' : isGood ? 'text-emerald-500' : 'text-rose-500',
+      bgColor: isNeutral ? 'bg-muted' : isGood ? 'bg-emerald-500/10' : 'bg-rose-500/10',
       prefix: isPositive ? '+' : '',
     };
   };
@@ -75,9 +67,7 @@ export function StatCard({
   return (
     <Card className={cn('transition-all hover:shadow-md', className)}>
       <CardHeader className="flex flex-row items-center justify-between gap-y-0 pb-2">
-        <CardTitle className="text-sm font-medium text-muted-foreground">
-          {title}
-        </CardTitle>
+        <CardTitle className="text-sm font-medium text-muted-foreground">{title}</CardTitle>
         {Icon && (
           <div className="flex size-8 items-center justify-center rounded-md bg-primary/10">
             <Icon className="size-4 text-primary" />
@@ -95,7 +85,7 @@ export function StatCard({
               className={cn(
                 'flex items-center gap-1 rounded px-1.5 py-0.5 text-xs font-medium',
                 trendInfo.bgColor,
-                trendInfo.color
+                trendInfo.color,
               )}
             >
               <trendInfo.icon className="size-3" />
@@ -107,9 +97,7 @@ export function StatCard({
           )}
 
           {(description || trend?.label) && (
-            <p className="text-xs text-muted-foreground">
-              {trend?.label || description}
-            </p>
+            <p className="text-xs text-muted-foreground">{trend?.label || description}</p>
           )}
         </div>
       </CardContent>

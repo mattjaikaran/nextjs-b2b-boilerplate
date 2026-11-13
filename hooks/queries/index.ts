@@ -6,7 +6,4 @@
  */
 
 // Todo queries
-export {
-  useTodos,
-  useTodoStats,
-} from './use-todo-queries';
+export { useTodos, useTodoStats } from './use-todo-queries';

@@ -6396,15 +6396,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "key",
-          "id",
-          "prefix",
-          "name",
-          "scopes",
-          "expires_at",
-          "created_at"
-        ],
+        "required": ["key", "id", "prefix", "name", "scopes", "expires_at", "created_at"],
         "title": "APIKeyCreatedResponse",
         "type": "object"
       },

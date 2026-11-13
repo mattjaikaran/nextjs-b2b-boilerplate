@@ -13,4 +13,3 @@ export function getCSRFToken(): string | null {
   }
   return null;
 }
-

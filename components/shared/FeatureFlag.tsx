@@ -15,21 +15,14 @@ interface FeatureFlagProps {
   fallback?: ReactNode;
 }
 
-export function FeatureFlag({
-  feature,
-  children,
-  fallback = null,
-}: FeatureFlagProps) {
+export function FeatureFlag({ feature, children, fallback = null }: FeatureFlagProps) {
   const isEnabled = useFeatureEnabled(feature);
 
   return isEnabled ? <>{children}</> : <>{fallback}</>;
 }
 
 // Convenience components for common features
-export function TodosFeature({
-  children,
-  fallback,
-}: Omit<FeatureFlagProps, 'feature'>) {
+export function TodosFeature({ children, fallback }: Omit<FeatureFlagProps, 'feature'>) {
   return (
     <FeatureFlag feature="enableTodos" fallback={fallback}>
       {children}
@@ -37,10 +30,7 @@ export function TodosFeature({
   );
 }
 
-export function NotificationsFeature({
-  children,
-  fallback,
-}: Omit<FeatureFlagProps, 'feature'>) {
+export function NotificationsFeature({ children, fallback }: Omit<FeatureFlagProps, 'feature'>) {
   return (
     <FeatureFlag feature="enableNotifications" fallback={fallback}>
       {children}
@@ -48,10 +38,7 @@ export function NotificationsFeature({
   );
 }
 
-export function AnalyticsFeature({
-  children,
-  fallback,
-}: Omit<FeatureFlagProps, 'feature'>) {
+export function AnalyticsFeature({ children, fallback }: Omit<FeatureFlagProps, 'feature'>) {
   return (
     <FeatureFlag feature="enableAnalytics" fallback={fallback}>
       {children}
@@ -59,10 +46,7 @@ export function AnalyticsFeature({
   );
 }
 
-export function DarkModeFeature({
-  children,
-  fallback,
-}: Omit<FeatureFlagProps, 'feature'>) {
+export function DarkModeFeature({ children, fallback }: Omit<FeatureFlagProps, 'feature'>) {
   return (
     <FeatureFlag feature="enableDarkMode" fallback={fallback}>
       {children}

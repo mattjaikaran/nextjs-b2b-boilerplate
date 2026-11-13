@@ -1,10 +1,6 @@
 'use client';
 
-
-export {
-  useTodos,
-  useTodoStats,
-} from './queries';
+export { useTodos, useTodoStats } from './queries';
 
 export {
   useChangePassword,
@@ -17,9 +13,4 @@ export {
   useUpdateTodo,
 } from './mutations';
 
-
-export {
-  useAuth,
-  useFeatureEnabled,
-  useUI,
-} from '@/lib/store';
+export { useAuth, useFeatureEnabled, useUI } from '@/lib/store';

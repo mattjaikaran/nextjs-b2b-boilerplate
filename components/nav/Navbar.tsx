@@ -49,15 +49,13 @@ export function Navbar({ className }: NavbarProps) {
         <div className="flex h-16 justify-between">
           <div className="flex items-center">
             <Link href="/" className="flex flex-shrink-0 items-center">
-              <span className="text-xl font-bold text-primary">
-                Next.js Starter
-              </span>
+              <span className="text-xl font-bold text-primary">Next.js Starter</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden items-center gap-x-8 md:flex">
-            {navigation.map(item => (
+            {navigation.map((item) => (
               <Link
                 key={item.name}
                 href={item.href}
@@ -70,7 +68,7 @@ export function Navbar({ className }: NavbarProps) {
             ))}
 
             {isAuthenticated &&
-              authenticatedNavigation.map(item => (
+              authenticatedNavigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
@@ -90,10 +88,7 @@ export function Navbar({ className }: NavbarProps) {
             {isAuthenticated ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="relative size-8 rounded-full"
-                  >
+                  <Button variant="ghost" className="relative size-8 rounded-full">
                     <User className="size-4" />
                   </Button>
                 </DropdownMenuTrigger>
@@ -103,9 +98,7 @@ export function Navbar({ className }: NavbarProps) {
                       <p className="text-sm font-medium leading-none">
                         {user?.firstName} {user?.lastName}
                       </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
+                      <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
@@ -135,11 +128,7 @@ export function Navbar({ className }: NavbarProps) {
               size="icon"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
-              {isMobileMenuOpen ? (
-                <X className="size-6" />
-              ) : (
-                <Menu className="size-6" />
-              )}
+              {isMobileMenuOpen ? <X className="size-6" /> : <Menu className="size-6" />}
             </Button>
           </div>
         </div>
@@ -148,7 +137,7 @@ export function Navbar({ className }: NavbarProps) {
         {isMobileMenuOpen && (
           <div className="md:hidden">
             <div className="gap-y-1 px-2 pb-3 pt-2 sm:px-3">
-              {navigation.map(item => (
+              {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
@@ -162,7 +151,7 @@ export function Navbar({ className }: NavbarProps) {
               ))}
 
               {isAuthenticated &&
-                authenticatedNavigation.map(item => (
+                authenticatedNavigation.map((item) => (
                   <Link
                     key={item.name}
                     href={item.href}
@@ -183,38 +172,22 @@ export function Navbar({ className }: NavbarProps) {
                     <div className="text-base font-medium text-foreground">
                       {user?.firstName} {user?.lastName}
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      {user?.email}
-                    </div>
+                    <div className="text-sm text-muted-foreground">{user?.email}</div>
                   </div>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    onClick={handleLogout}
-                  >
+                  <Button variant="ghost" className="w-full justify-start" onClick={handleLogout}>
                     <LogOut className="mr-2 size-4" />
                     Log out
                   </Button>
                 </div>
               ) : (
                 <div className="gap-y-1 px-2">
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-start"
-                    asChild
-                  >
-                    <Link
-                      href="/login"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                  <Button variant="ghost" className="w-full justify-start" asChild>
+                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
                       Sign In
                     </Link>
                   </Button>
                   <Button className="w-full" asChild>
-                    <Link
-                      href="/register"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
+                    <Link href="/register" onClick={() => setIsMobileMenuOpen(false)}>
                       Sign Up
                     </Link>
                   </Button>

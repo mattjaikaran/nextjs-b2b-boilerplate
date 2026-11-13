@@ -17,23 +17,20 @@ const invalidateTodos = (queryClient: QueryClient) => {
 };
 
 export const useCreateTodo = (
-  options?: Omit<
-    UseMutationOptions<Todo, Error, CreateTodoRequest>,
-    'mutationFn'
-  >
+  options?: Omit<UseMutationOptions<Todo, Error, CreateTodoRequest>, 'mutationFn'>,
 ) => {
   const queryClient = useQueryClient();
   const { addNotification } = useUI();
 
   return useMutation<Todo, Error, CreateTodoRequest>({
-    mutationFn: async data => {
+    mutationFn: async (data) => {
       const response = await todoCreateTodo({
         body: toCreateTodoBody(data),
         throwOnError: true,
       });
       return toTodo(response.data);
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       invalidateTodos(queryClient);
       addNotification({
         type: 'success',
@@ -41,7 +38,7 @@ export const useCreateTodo = (
         message: `"${data.title}" has been created successfully.`,
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Failed to create todo',
@@ -56,7 +53,7 @@ export const useUpdateTodo = (
   options?: Omit<
     UseMutationOptions<Todo, Error, { id: string; updates: UpdateTodoRequest }>,
     'mutationFn'
-  >
+  >,
 ) => {
   const queryClient = useQueryClient();
   const { addNotification } = useUI();
@@ -70,7 +67,7 @@ export const useUpdateTodo = (
       });
       return toTodo(response.data);
     },
-    onSuccess: data => {
+    onSuccess: (data) => {
       invalidateTodos(queryClient);
       addNotification({
         type: 'success',
@@ -78,7 +75,7 @@ export const useUpdateTodo = (
         message: `"${data.title}" has been updated successfully.`,
       });
     },
-    onError: error => {
+    onError: (error) => {
       addNotification({
         type: 'error',
         title: 'Failed to update todo',

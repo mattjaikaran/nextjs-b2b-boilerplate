@@ -8,16 +8,21 @@ changes inside its declared ownership.
 
 ```markdown
 ## Goal
+
 What the change must achieve, in one or two sentences.
 
 ## Files owned
+
 The files or directories this task may modify. Anything else is out of scope.
 
 ## Acceptance
+
 Observable, checkable outcomes (behavior, response, rendered state).
 
 ## Gate
+
 The commands that must pass before the commit, for example:
+
 - bun run gauntlet
 - bun run build
 ```

@@ -133,10 +133,9 @@ export function DataTable<TData, TValue>({
       }
     : { pageIndex: 0, pageSize };
 
-  const handlePaginationChange: OnChangeFn<PaginationState> = updater => {
+  const handlePaginationChange: OnChangeFn<PaginationState> = (updater) => {
     if (!onPaginationChange) return;
-    const newState =
-      typeof updater === 'function' ? updater(pagination) : updater;
+    const newState = typeof updater === 'function' ? updater(pagination) : updater;
     onPaginationChange(newState.pageIndex + 1, newState.pageSize);
   };
 
@@ -189,12 +188,8 @@ export function DataTable<TData, TValue>({
   const currentPage = isServerSide
     ? serverPagination.page
     : table.getState().pagination.pageIndex + 1;
-  const totalPages = isServerSide
-    ? serverPagination.totalPages
-    : table.getPageCount();
-  const totalRows = isServerSide
-    ? serverPagination.total
-    : table.getFilteredRowModel().rows.length;
+  const totalPages = isServerSide ? serverPagination.totalPages : table.getPageCount();
+  const totalRows = isServerSide ? serverPagination.total : table.getFilteredRowModel().rows.length;
 
   return (
     <div className="gap-y-4">
@@ -212,16 +207,13 @@ export function DataTable<TData, TValue>({
       <div className="rounded-md border">
         <Table>
           <TableHeader>
-            {table.getHeaderGroups().map(headerGroup => (
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
+                {headerGroup.headers.map((header) => (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      : flexRender(header.column.columnDef.header, header.getContext())}
                   </TableHead>
                 ))}
               </TableRow>
@@ -229,27 +221,18 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
+                <TableCell colSpan={columns.length} className="h-24 text-center">
                   No results.
                 </TableCell>
               </TableRow>

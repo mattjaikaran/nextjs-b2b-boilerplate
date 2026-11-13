@@ -41,8 +41,7 @@ export function QueryProvider({ children }: QueryProviderProps) {
               // Retry up to 3 times for other errors
               return failureCount < 3;
             },
-            retryDelay: attemptIndex =>
-              Math.min(1000 * 2 ** attemptIndex, 30000),
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
           },
           mutations: {
             retry: (failureCount, error: unknown) => {
@@ -58,15 +57,13 @@ export function QueryProvider({ children }: QueryProviderProps) {
             },
           },
         },
-      })
+      }),
   );
 
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {process.env.NODE_ENV === 'development' && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
+      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen={false} />}
     </QueryClientProvider>
   );
 }

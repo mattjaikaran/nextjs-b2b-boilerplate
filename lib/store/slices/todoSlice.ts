@@ -104,7 +104,7 @@ export const useTodoStore = create<TodoSlice>((set, get) => ({
       const { todos } = get();
       set({
         todos: todos.map((t) =>
-          t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t
+          t.id === id ? { ...t, ...updates, updatedAt: new Date().toISOString() } : t,
         ),
         isLoading: false,
       });

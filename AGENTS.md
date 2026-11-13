@@ -20,37 +20,38 @@ must be absent or contain only `@AGENTS.md`.
 Run everything from the repo root with Bun. `npm install` and `yarn add` are rejected by
 the convention gate.
 
-| Task | Command |
-| --- | --- |
-| Install dependencies | `bun install` |
-| Dev server | `bun dev` |
-| Production build | `bun run build` |
-| Run the production build | `bun start` |
-| Lint | `bun run lint` |
-| Typecheck | `bun run typecheck` |
-| Convention gate | `bun run check-conventions` |
-| Dependency gate | `bun run check-dependencies` |
-| Agent-docs gate | `bun run check-agents` |
-| All gates | `bun run gauntlet` |
-| React diagnostics | `bun run doctor` |
-| Enable the commit hook | `bun run hooks:install` |
+| Task                     | Command                      |
+| ------------------------ | ---------------------------- |
+| Install dependencies     | `bun install`                |
+| Dev server               | `bun dev`                    |
+| Production build         | `bun run build`              |
+| Run the production build | `bun start`                  |
+| Lint                     | `bun run lint`               |
+| Lint (CI, warnings fail) | `bun run lint:strict`        |
+| Format                   | `bun run format`             |
+| Check formatting         | `bun run format:check`       |
+| Typecheck                | `bun run typecheck`          |
+| Convention gate          | `bun run check-conventions`  |
+| Dependency gate          | `bun run check-dependencies` |
+| Agent-docs gate          | `bun run check-agents`       |
+| All gates                | `bun run gauntlet`           |
+| React diagnostics        | `bun run doctor`             |
+| Enable the commit hook   | `bun run hooks:install`      |
 
 `bun install` rewrites `bun.lock` because package versions are pinned in `package.json`;
 commit the refreshed lock together with the dependency change that caused it.
 
-`bun run lint` and `bun run check-conventions` currently fail on pre-existing issues:
-`react-hooks/refs` errors in `components/ui/image.tsx`, plus violations in
-`hooks/mutations/use-auth-mutations.ts`, `lib/api.ts`, `app/dashboard/settings/account-tab.tsx`,
-and `forms/todos/TodoForm.tsx`. `bun run typecheck`, `bun run build`, `check-dependencies`,
-and `check-agents` pass. A change must not add diagnostics; run the relevant gate on the paths
-you touched (`bunx eslint <paths>`, `bun run check-conventions -- --check <ID>`).
+Every gate passes: `bun run lint:strict`, `bun run format:check`, `bun run typecheck`,
+`bun run build`, `bun run doctor`, `check-conventions`, `check-dependencies`, and
+`check-agents`. A change must not add diagnostics; run the relevant gate on the paths you
+touched (`bunx oxlint <paths>`, `bunx oxfmt --check <paths>`,
+`bun run check-conventions -- --check <ID>`).
 
 ## Code standards and architecture
 
 Read [docs/code-standards.md](docs/code-standards.md) for the rules each gate enforces and
-[docs/architecture.md](docs/architecture.md) before adding a route, hook, or service. Fix
-diagnostics your change introduces; see the known failures under Commands before blaming the
-gate.
+[docs/architecture.md](docs/architecture.md) before adding a route, hook, or service. Fix the
+diagnostics your change introduces; the gates are green on a clean tree.
 
 ## Testing policy
 

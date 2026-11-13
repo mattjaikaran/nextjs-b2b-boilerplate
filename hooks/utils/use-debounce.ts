@@ -10,7 +10,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
 /**
  * Hook to debounce a value
  */
-const useDebounce = <T>(value: T, delay: number = 500): T => {
+export const useDebounce = <T>(value: T, delay: number = 500): T => {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
@@ -29,10 +29,10 @@ const useDebounce = <T>(value: T, delay: number = 500): T => {
 /**
  * Hook to debounce a callback function
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const useDebouncedCallback = <T extends (...args: any[]) => unknown>(
+// oxlint-disable-next-line typescript/no-explicit-any
+export const useDebouncedCallback = <T extends (...args: any[]) => unknown>(
   callback: T,
-  delay: number = 500
+  delay: number = 500,
 ): ((...args: Parameters<T>) => void) => {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const callbackRef = useRef(callback);
@@ -51,7 +51,7 @@ const useDebouncedCallback = <T extends (...args: any[]) => unknown>(
         callbackRef.current(...args);
       }, delay);
     },
-    [delay]
+    [delay],
   );
 
   // Cleanup on unmount
@@ -72,9 +72,7 @@ interface DebounceState<T> {
   isDebouncing: boolean;
 }
 
-type DebounceAction<T> =
-  | { type: 'START'; }
-  | { type: 'DONE'; payload: T };
+type DebounceAction<T> = { type: 'START' } | { type: 'DONE'; payload: T };
 
 function debounceReducer<T>(state: DebounceState<T>, action: DebounceAction<T>): DebounceState<T> {
   switch (action.type) {
@@ -90,9 +88,9 @@ function debounceReducer<T>(state: DebounceState<T>, action: DebounceAction<T>):
 /**
  * Hook to debounce with loading state
  */
-const useDebounceWithLoading = <T>(
+export const useDebounceWithLoading = <T>(
   value: T,
-  delay: number = 500
+  delay: number = 500,
 ): { debouncedValue: T; isDebouncing: boolean } => {
   const [state, dispatch] = useReducer(debounceReducer<T>, {
     debouncedValue: value,

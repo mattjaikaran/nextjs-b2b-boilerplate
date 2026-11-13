@@ -1,21 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTodos } from '@/hooks';
-import {
-  Activity,
-  Calendar,
-  CheckSquare,
-  Clock,
-  TrendingUp,
-} from 'lucide-react';
+import { Activity, Calendar, CheckSquare, Clock, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 
 export default function DashboardPage() {
@@ -85,7 +73,8 @@ export default function DashboardPage() {
             <div className="text-2xl font-bold">{stats.pending}</div>
             <p className="text-xs text-muted-foreground">from last week</p>
           </CardContent>
-        </Card>      </div>
+        </Card>{' '}
+      </div>
 
       {/* Charts row - simplified without chart components */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -99,18 +88,13 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="flex h-[250px] items-end justify-between gap-2">
-              {weeklyActivityData.map(day => (
-                <div
-                  key={day.label}
-                  className="flex flex-1 flex-col items-center gap-2"
-                >
+              {weeklyActivityData.map((day) => (
+                <div key={day.label} className="flex flex-1 flex-col items-center gap-2">
                   <div
                     className="w-full rounded-t bg-primary/20 transition-colors hover:bg-primary/30"
                     style={{ height: `${(day.value / 25) * 100}%` }}
                   />
-                  <span className="text-xs text-muted-foreground">
-                    {day.label}
-                  </span>
+                  <span className="text-xs text-muted-foreground">{day.label}</span>
                 </div>
               ))}
             </div>
@@ -155,37 +139,34 @@ export default function DashboardPage() {
             {todosLoading ? (
               <div className="gap-y-3">
                 {[...Array(5)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="h-12 animate-pulse rounded bg-muted"
-                  />
+                  <div key={i} className="h-12 animate-pulse rounded bg-muted" />
                 ))}
               </div>
             ) : Array.isArray(todos) && todos.length > 0 ? (
               <div className="gap-y-3">
-                {todos.slice(0, 5).map((todo: { id: string; title: string; completed?: boolean }) => (
-                  <div
-                    key={todo.id}
-                    className="flex items-center gap-3 rounded-lg bg-muted/50 p-3 transition-colors hover:bg-muted"
-                  >
+                {todos
+                  .slice(0, 5)
+                  .map((todo: { id: string; title: string; completed?: boolean }) => (
                     <div
-                      className={`h-2 w-2 rounded-full ${
-                        todo.completed ? 'bg-emerald-500' : 'bg-sky-500'
-                      }`}
-                    />
-                    <div className="min-w-0 flex-1">
-                      <p
-                        className={`truncate text-sm font-medium ${
-                          todo.completed
-                            ? 'text-muted-foreground line-through'
-                            : ''
+                      key={todo.id}
+                      className="flex items-center gap-3 rounded-lg bg-muted/50 p-3 transition-colors hover:bg-muted"
+                    >
+                      <div
+                        className={`h-2 w-2 rounded-full ${
+                          todo.completed ? 'bg-emerald-500' : 'bg-sky-500'
                         }`}
-                      >
-                        {todo.title}
-                      </p>
+                      />
+                      <div className="min-w-0 flex-1">
+                        <p
+                          className={`truncate text-sm font-medium ${
+                            todo.completed ? 'text-muted-foreground line-through' : ''
+                          }`}
+                        >
+                          {todo.title}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
               </div>
             ) : (
               <div className="gap-y-4 py-8 text-center">

@@ -17,10 +17,4 @@ export interface NotificationsState {
   taskReminders: boolean;
 }
 
-export type SettingsTab =
-  | 'account'
-  | 'notifications'
-  | 'privacy'
-  | 'team'
-  | 'billing'
-  | 'api-keys';
+export type SettingsTab = 'account' | 'notifications' | 'privacy' | 'team' | 'billing' | 'api-keys';

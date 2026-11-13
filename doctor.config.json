@@ -1,0 +1,5 @@
+{
+  "ignore": {
+    "files": ["src/api/generated/**", ".next/**", "out/**", "build/**"]
+  }
+}

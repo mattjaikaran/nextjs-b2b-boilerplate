@@ -6,7 +6,7 @@ async function retryAttempt<T>(
   fn: () => Promise<T>,
   attempt: number,
   maxAttempts: number,
-  delay: number
+  delay: number,
 ): Promise<T> {
   try {
     return await fn();
@@ -21,7 +21,7 @@ async function retryAttempt<T>(
 
 export async function retry<T>(
   fn: () => Promise<T>,
-  options: { maxAttempts?: number; delay?: number } = {}
+  options: { maxAttempts?: number; delay?: number } = {},
 ): Promise<T> {
   const { maxAttempts = 3, delay = 1000 } = options;
   return retryAttempt(fn, 1, maxAttempts, delay);

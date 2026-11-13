@@ -43,16 +43,12 @@ export function DataTableToolbar<TData>({
               value={
                 onSearchChange
                   ? searchValue
-                  : ((table
-                      .getColumn(searchKey!)
-                      ?.getFilterValue() as string) ?? '')
+                  : ((table.getColumn(searchKey!)?.getFilterValue() as string) ?? '')
               }
-              onChange={event =>
+              onChange={(event) =>
                 onSearchChange
                   ? onSearchValueChange(event.target.value)
-                  : table
-                      .getColumn(searchKey!)
-                      ?.setFilterValue(event.target.value)
+                  : table.getColumn(searchKey!)?.setFilterValue(event.target.value)
               }
               className="max-w-sm"
             />
@@ -78,12 +74,10 @@ export function DataTableToolbar<TData>({
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={value =>
-                      column.toggleVisibility(!!value)
-                    }
+                    onCheckedChange={(value) => column.toggleVisibility(!!value)}
                   >
                     {column.id}
-                  </DropdownMenuCheckboxItem>
+                  </DropdownMenuCheckboxItem>,
                 );
               }
               return acc;
